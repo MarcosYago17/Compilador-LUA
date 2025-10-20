@@ -13,5 +13,6 @@ O objetivo é **aprender e aplicar conceitos de compiladores**, explorando desde
 
 - 👨‍💻 [**Álvaro Tavares**](https://github.com/alvarostavares)  
 - 👨‍💻 [**Marcos Yago**](https://github.com/MarcosYago17)
--  
-- 👨‍🏫 [**Professor: André Luiz Menezes**](https://github.com/andreluizmenezes)
+- 👨‍💻 [**Valter Santos**](https://github.com/ValterSantos1)
+  
+- 👨‍🏫 [**Professor: André Luiz Menezes**](https://github.com/andreluisms)
