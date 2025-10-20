@@ -5,7 +5,7 @@ O objetivo é **aprender e aplicar conceitos de compiladores**, explorando desde
 ---
 </br> </br>
  ![](https://geps.dev/progress/10?dangerColor=800000&warningColor=ff9900&successColor=006600)
-## 🚀 Tecnologias
+## 🚀 Tecnologias 
 - **Haskell**
 - **Python** 
 
