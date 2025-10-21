@@ -1,12 +1,12 @@
-# 🧩 Projeto de Compiladores em Haskell
+# 🧩 Projeto de Compiladores em LUA
 
 Projeto desenvolvido na disciplina **Linguagens Formais e Tradutores (LFT)**, ministrada pelo professor **André Luiz Menezes**.  
-O objetivo é **aprender e aplicar conceitos de compiladores**, explorando desde a análise de linguagens até a implementação prática em **Haskell**.
+O objetivo é **aprender e aplicar conceitos de compiladores**, explorando desde a análise de linguagens até a implementação prática em **LUA**.
 ---
 </br> </br>
  ![](https://geps.dev/progress/10?dangerColor=800000&warningColor=ff9900&successColor=006600)
 ## 🚀 Tecnologias 
-- **Haskell**
+- **LUA**
 - **Python** 
 
 ### 👥 Integrantes
