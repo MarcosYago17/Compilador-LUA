@@ -16,3 +16,24 @@ O objetivo é **aprender e aplicar conceitos de compiladores**, explorando desde
 - 👨‍💻 [**Valter Santos**](https://github.com/ValterSantos1)
   
 - 👨‍🏫 [**Professor: André Luiz Menezes**](https://github.com/andreluisms)
+
+### Passos a seguir:
+
+- [ ] Atividade 1. Elaboração da Documentação Léxica.
+
+- [ ] Atividade 2. Elaboração do Léxico em PLY.
+
+- [ ] Atividade 3. Elaboração da Documentação Sintática e Exemplos de Código.
+
+- [ ] Atividade 4. Elaboração da Gramática Livre de Contexto e implementação no PLY
+  - [ ] GLC
+  - [ ] Implementação no PLY
+
+- [ ] Atividade 5. Elaboração da Sintaxe Abstrata e Visitor Pretty Printer
+  - [ ] Exemplo Sintaxe Abstrata
+  - [ ] Exemplo Visitor ImprimeCodigo
+
+ - [ ] Atividade 6. Análise Semântica
+   - [ ] Exemplo Análise Semântica
+         
+ - [ ] Atividade 7. Geração de Assembly.
