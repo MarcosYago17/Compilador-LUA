@@ -6,8 +6,8 @@ O objetivo é **aprender e aplicar conceitos de compiladores**, explorando desde
 </br> </br>
  ![](https://geps.dev/progress/10?dangerColor=800000&warningColor=ff9900&successColor=006600)
 ## 🚀 Tecnologias 
-- **LUA**
-- **Python** 
+![Lua](https://img.shields.io/badge/-Lua-2C2D72?style=for-the-badge&logo=lua&logoColor=white) ![Python](https://img.shields.io/badge/-Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+
 
 ### 👥 Integrantes
 
