@@ -19,19 +19,19 @@ O objetivo é **aprender e aplicar conceitos de compiladores**, explorando desde
 
 ### Passos a seguir:
 
-- [ ] Atividade 1. Elaboração da Documentação Léxica.
+- [✔️ ] Atividade 1. Elaboração da Documentação Léxica.
 
-- [ ] Atividade 2. Elaboração do Léxico em PLY.
+- [✔️ ] Atividade 2. Elaboração do Léxico em PLY.
 
-- [ ] Atividade 3. Elaboração da Documentação Sintática e Exemplos de Código.
+- [✔️ ] Atividade 3. Elaboração da Documentação Sintática e Exemplos de Código.
 
-- [ ] Atividade 4. Elaboração da Gramática Livre de Contexto e implementação no PLY
-  - [ ] GLC
-  - [ ] Implementação no PLY
+- [✔️ ] Atividade 4. Elaboração da Gramática Livre de Contexto e implementação no PLY
+  - [✔️ ] GLC
+  - [✔️ ] Implementação no PLY
 
-- [ ] Atividade 5. Elaboração da Sintaxe Abstrata e Visitor Pretty Printer
-  - [ ] Exemplo Sintaxe Abstrata
-  - [ ] Exemplo Visitor ImprimeCodigo
+- [✔️ ] Atividade 5. Elaboração da Sintaxe Abstrata e Visitor Pretty Printer
+  - [✔️ ] Exemplo Sintaxe Abstrata
+  - [ ] Exemplo Visitor 
 
  - [ ] Atividade 6. Análise Semântica
    - [ ] Exemplo Análise Semântica
