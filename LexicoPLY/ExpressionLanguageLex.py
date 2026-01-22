@@ -16,6 +16,7 @@ reserved = {
     'nil': 'NIL',
     'not': 'NOT',
     'or': 'OR',
+    'print': 'PRINT',
     'repeat': 'REPEAT',
     'return': 'RETURN',
     'then': 'THEN',
