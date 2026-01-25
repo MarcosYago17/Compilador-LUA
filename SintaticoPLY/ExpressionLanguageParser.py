@@ -27,14 +27,16 @@ import ply.yacc as yacc
 from LexicoPLY.ExpressionLanguageLex import tokens
 from SintaticoPLY import SintaxeAbstrata as sa
 
-# Precedência
+# Precedência (da menor para a maior)
 precedence = (
     ('left', 'OR'),
     ('left', 'AND'),
-    ('left', 'EQUALS', 'LT', 'GT'),
+    ('left', 'EQUALS', 'DIF', 'LT', 'GT', 'LTEQUALS', 'GTEQUALS'),
+    ('left', 'CONCAT'),
     ('left', 'PLUS', 'MINUS'),
-    ('left', 'TIMES', 'DIVIDE'),
-    ('right', 'UMINUS','NOT'),
+    ('left', 'TIMES', 'DIVIDE', 'PERCENTUAL'),
+    ('right', 'UMINUS', 'NOT', 'TAG'),
+    ('right', 'EXPO'),
 )
 
 # definição de trecho
@@ -61,7 +63,7 @@ def p_statement_funcdecl(p):
 # Loop While: while (x < 10) do ... end
 def p_statement_while(p):
     '''statement : WHILE expression DO statements END'''
-    p[0] = sa.While(p[2], sa.Block(p[4])) #remover
+    p[0] = sa.While(p[2], sa.Block(p[4]))
 
 def p_statement_for_numeric(p):
     '''statement : FOR NAME ATRIB expression COMMA expression DO statements END
@@ -86,7 +88,7 @@ def p_statement_for_numeric(p):
 
 def p_statement_for_generic(p):
     '''statement : FOR namelist IN explist DO statements END'''
-    p[0] = sa.ForGen(p[2], p[4], sa.Block(p[6]))#remover
+    p[0] = sa.ForGen(p[2], p[4], sa.Block(p[6]))
 
 # AUXILIARES PARA O FOR GENÉRICO
 
@@ -106,42 +108,54 @@ def p_explist(p):
     else:
         p[0] = [p[1]]
 
-# If / Else
+# If / ElseIf / Else - CORRIGIDO
 def p_statement_if(p):
-    '''statement : IF expression THEN statements END'''
-    p[0] = sa.If(p[2], sa.Block(p[4]))
-
-def p_statement_if_else(p):
-    '''statement : IF expression THEN statements ELSE statements END'''
-    p[0] = sa.If(p[2], sa.Block(p[4]), sa.Block(p[6]))
+    '''statement : IF expression THEN statements elseif_list END
+                 | IF expression THEN statements elseif_list ELSE statements END'''
+    condition = p[2]
+    then_body = sa.Block(p[4])
+    elseifs = p[5]  # Lista de (condição, bloco)
     
+    if len(p) == 7:  # Sem else final
+        p[0] = sa.If(condition, then_body, elseifs, None)
+    else:  # Com else final
+        else_body = sa.Block(p[7])
+        p[0] = sa.If(condition, then_body, elseifs, else_body)
+
 def p_elseif_list(p):
     '''elseif_list : elseif_list ELSEIF expression THEN statements
                    | empty'''
     if len(p) == 6:
-        p[0] = p[1] + [(p[3], p[5])]
+        p[0] = p[1] + [(p[3], sa.Block(p[5]))]
     else:
         p[0] = []
 
 def p_empty(p):
-    'empty :'   #remover
+    'empty :'
     pass
+
+# Break: sai do loop atual
+def p_statement_break(p):
+    '''statement : BREAK'''
+    p[0] = sa.Break()
+
+# Repeat-Until: repeat ... until condition
+def p_statement_repeat(p):
+    '''statement : REPEAT statements UNTIL expression'''
+    p[0] = sa.RepeatUntil(sa.Block(p[2]), p[4])
+
 
 # Atribuição: local x = 10
 def p_statement_assign_local(p):
-    '''statement : LOCAL NAME EQUALS expression'''
+    '''statement : LOCAL NAME ATRIB expression'''
     p[0] = sa.Assign(p[2], p[4])
 
 # Atribuição existente: x = 10
 def p_statement_assign(p):
-    '''statement : NAME EQUALS expression'''
+    '''statement : NAME ATRIB expression'''
     p[0] = sa.Assign(p[1], p[3])
 
-# Print é um caso especial de chamada de função em lua
-def p_statement_print(p):
-    '''statement : PRINT LPAREN expression RPAREN'''
-    # aqui vamos lidar como um comando
-    p[0] = sa.FunctionCall("print", [p[3]])
+# Print é tratado como chamada de função normal (não há regra específica)
 
 # Retorno
 def p_statement_return(p):
@@ -185,21 +199,36 @@ def p_arguments_empty(p):
 
 def p_expression_uminus(p):
     '''expression : MINUS expression %prec UMINUS'''
-    p[0] = sa.BinOp(sa.Number(0), '-', p[2]) 
+    p[0] = sa.UnOp('-', p[2])
 
 def p_expression_not(p):
     '''expression : NOT expression'''
     p[0] = sa.UnOp('not', p[2])
+
+def p_expression_length(p):
+    '''expression : TAG expression'''
+    p[0] = sa.Length(p[2])
 
 def p_expression_binop(p):
     '''expression : expression PLUS expression
                   | expression MINUS expression
                   | expression TIMES expression
                   | expression DIVIDE expression
+                  | expression PERCENTUAL expression
+                  | expression EXPO expression
                   | expression EQUALS expression
+                  | expression DIF expression
                   | expression LT expression
-                  | expression GT expression'''
+                  | expression GT expression
+                  | expression LTEQUALS expression
+                  | expression GTEQUALS expression
+                  | expression AND expression
+                  | expression OR expression'''
     p[0] = sa.BinOp(p[1], p[2], p[3])
+
+def p_expression_concat(p):
+    '''expression : expression CONCAT expression'''
+    p[0] = sa.Concat(p[1], p[3])
 
 def p_expression_call(p):
     '''expression : function_call'''
@@ -213,45 +242,37 @@ def p_function_call(p):
 def p_expression_atom(p):
     '''expression : NUMBER
                   | STRING
-                  | NAME'''
-    if isinstance(p[1], int):
+                  | NAME
+                  | TRUE
+                  | FALSE
+                  | NIL'''
+    token_type = p.slice[1].type
+    if token_type == 'NUMBER':
         p[0] = sa.Number(p[1])
-    elif isinstance(p[1], str) and p[1].startswith('"'): # Verificação simplista
+    elif token_type == 'STRING':
         p[0] = sa.String(p[1])
-    elif p.slice[1].type == 'NAME': # Verifica se o token é NAME
+    elif token_type == 'NAME':
         p[0] = sa.Var(p[1])
-    else:
-        p[0] = sa.String(p[1])
+    elif token_type == 'TRUE':
+        p[0] = sa.Boolean(True)
+    elif token_type == 'FALSE':
+        p[0] = sa.Boolean(False)
+    elif token_type == 'NIL':
+        p[0] = sa.Nil()
+
+def p_expression_group(p):
+    '''expression : LPAREN expression RPAREN'''
+    p[0] = p[2]
+
 
 def p_error(p):
     if p:
-        print(f"ERRO DE SINTAXE: Token '{p.value}' inesperado na linha {p.lineno}")
+        msg = f"ERRO DE SINTAXE: Token '{p.value}' inesperado na linha {p.lineno}"
     else:
-        print("ERRO DE SINTAXE: Final de arquivo inesperado")
+        msg = "ERRO DE SINTAXE: Final de arquivo inesperado"
+    print(msg)
+    raise SyntaxError(msg)
 
 
- # --- TESTE ---
-
-def main():
-    # Código Lua mais complexo para teste
-    codigo_lua = """
-    function soma(a, b)
-        return a + b
-    end
-
-    local x = 10
-    local y = 20
-    
-    while x < y do
-        x = soma(x, 1)
-        print(x)
-    end
-    """
-    
-    print("--- Testando Parser ---")
-    parser = yacc.yacc()
-    result = parser.parse(codigo_lua)
-    print(result)
-
-if __name__ == "__main__":
-    main()
+# Criação do parser
+parser = yacc.yacc()

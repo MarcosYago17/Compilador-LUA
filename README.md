@@ -31,7 +31,7 @@ O objetivo é **aprender e aplicar conceitos de compiladores**, explorando desde
 
 - [✔️ ] Atividade 5. Elaboração da Sintaxe Abstrata e Visitor Pretty Printer
   - [✔️ ] Exemplo Sintaxe Abstrata
-  - [ ] Exemplo Visitor 
+  - [✔️ ] Exemplo Visitor (PrettyPrinter) 
 
  - [ ] Atividade 6. Análise Semântica
    - [ ] Exemplo Análise Semântica

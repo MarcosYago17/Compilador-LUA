@@ -3,6 +3,13 @@
 # -------------------------
 
 class AST:
+    """Classe base para todos os nós da AST."""
+    def accept(self, visitor):
+        """Método para padrão Visitor."""
+        method_name = f'visit_{type(self).__name__}'
+        visit_method = getattr(visitor, method_name, visitor.generic_visit)
+        return visit_method(self)
+    
     def __repr__(self):
         return str(self.__dict__)
 
@@ -62,8 +69,6 @@ class While(AST):
         self.body = body
     def __repr__(self): return f"While({self.condition}) {self.body}"
 
-# --- Adicione isto junto com os outros comandos (statements) ---
-
 class ForNum(AST):
     def __init__(self, var, start, end, step, body):
         self.var = var      # Nome da variável (string)
@@ -90,13 +95,68 @@ class Return(AST):
     def __repr__(self): return f"Return({self.exp})"
 
 class If(AST):
-    def __init__(self, condition, then_body, else_body=None):
+    def __init__(self, condition, then_body, elseifs=None, else_body=None):
         self.condition = condition
         self.then_body = then_body
+        self.elseifs = elseifs or []  # Lista de (condição, bloco)
         self.else_body = else_body
-    def __repr__(self): return f"If({self.condition}) Then {self.then_body} Else {self.else_body}"
+        
+    def __repr__(self): 
+        elseif_str = f" ElseIfs{self.elseifs}" if self.elseifs else ""
+        return f"If({self.condition}) Then {self.then_body}{elseif_str} Else {self.else_body}"
 
 class Block(AST): 
     def __init__(self, statements):
         self.statements = statements
     def __repr__(self): return f"Block{self.statements}"
+
+class Break(AST):
+    """Representa o comando 'break' para sair de loops."""
+    def __repr__(self): return "Break()"
+
+class RepeatUntil(AST):
+    """Representa o loop 'repeat ... until condition'."""
+    def __init__(self, body, condition):
+        self.body = body          # Bloco de statements
+        self.condition = condition # Condição de parada
+    def __repr__(self): 
+        return f"RepeatUntil({self.body} until {self.condition})"
+
+class Boolean(AST):
+    """Representa os literais booleanos 'true' e 'false'."""
+    def __init__(self, value):
+        self.value = value  # True ou False
+    def __repr__(self): return f"Bool({self.value})"
+
+class Nil(AST):
+    """Representa o literal 'nil'."""
+    def __repr__(self): return "Nil()"
+
+class Concat(AST):
+    """Representa a operação de concatenação '..'."""
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
+    def __repr__(self): return f"Concat({self.left} .. {self.right})"
+
+class Length(AST):
+    """Representa o operador de tamanho '#'."""
+    def __init__(self, operand):
+        self.operand = operand
+    def __repr__(self): return f"Len(#{self.operand})"
+
+
+# -------------------------
+# Visitor Base Class
+# -------------------------
+
+class ASTVisitor:
+    """Classe base para visitantes da AST."""
+    
+    def visit(self, node):
+        """Visita um nó da AST."""
+        return node.accept(self)
+    
+    def generic_visit(self, node):
+        """Método chamado quando não há visitante específico."""
+        raise NotImplementedError(f"Visitor não implementado para {type(node).__name__}")
