@@ -22,6 +22,18 @@ class Var(AST):
         self.name = name
     def __repr__(self): return f"Var({self.name})"
 
+class Boolean(AST):
+    def __init__(self, value):
+        self.value = value  
+    def __repr__(self): 
+        return f"Bool({self.value})"
+
+class Nil(AST):
+    def __init__(self):
+        pass 
+    def __repr__(self): 
+        return "Nil"
+
 class UnOp(AST):
     def __init__(self, op, operand):
         self.op = op          # not ou '-'
@@ -62,27 +74,17 @@ class While(AST):
         self.body = body
     def __repr__(self): return f"While({self.condition}) {self.body}"
 
-# --- Adicione isto junto com os outros comandos (statements) ---
 
-class ForNum(AST):
+class For(AST):
     def __init__(self, var, start, end, step, body):
-        self.var = var      # Nome da variável (string)
-        self.start = start  # Expressão inicial
-        self.end = end      # Expressão final
-        self.step = step    # Expressão do passo (pode ser None ou Num)
-        self.body = body    # Bloco de comandos
+        self.var = var      
+        self.start = start  
+        self.end = end      
+        self.step = step    
+        self.body = body    
         
     def __repr__(self):
-        return f"ForNum({self.var} = {self.start} to {self.end} step {self.step}) {self.body}"
-
-class ForGen(AST):
-    def __init__(self, names, exps, body):
-        self.names = names  # Lista de nomes das variáveis
-        self.exps = exps    # Lista de expressões (ex: pairs(t))
-        self.body = body    # Bloco de comandos
-        
-    def __repr__(self):
-        return f"ForGen({self.names} in {self.exps}) {self.body}"
+        return f"For({self.var} = {self.start} to {self.end} step {self.step}) {self.body}"
 
 class Return(AST): 
     def __init__(self, exp):
@@ -90,11 +92,12 @@ class Return(AST):
     def __repr__(self): return f"Return({self.exp})"
 
 class If(AST):
-    def __init__(self, condition, then_body, else_body=None):
+    def __init__(self, condition, then_body, else_body=None, elseif_list=None):
         self.condition = condition
         self.then_body = then_body
         self.else_body = else_body
-    def __repr__(self): return f"If({self.condition}) Then {self.then_body} Else {self.else_body}"
+        self.elseif_list = elseif_list if elseif_list else []
+    def __repr__(self): return f"If({self.condition}) Then {self.then_body} ElseIf {self.elseif_list} Else {self.else_body}"
 
 class Block(AST): 
     def __init__(self, statements):

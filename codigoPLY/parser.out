@@ -1,0 +1,3210 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    BRACE
+    BREAK
+    COLCH
+    COLON
+    CONCAT
+    DIF
+    DOT
+    DUALCOLON
+    EXPO
+    IN
+    PERCENTUAL
+    RBRACE
+    RCOLCH
+    REPEAT
+    SEMICOLON
+    TAG
+    UNTIL
+    VARARGS
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> statements
+Rule 2     program -> empty
+Rule 3     statements -> statement statements
+Rule 4     statements -> statement
+Rule 5     statement -> FUNCTION NAME LPAREN parameters RPAREN statements END
+Rule 6     statement -> WHILE expression DO statements END
+Rule 7     statement -> FOR NAME ATRIB expression COMMA expression DO statements END
+Rule 8     statement -> FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END
+Rule 9     statement -> IF expression THEN statements END
+Rule 10    statement -> IF expression THEN statements ELSE statements END
+Rule 11    statement -> IF expression THEN statements elseif_list ELSE statements END
+Rule 12    statement -> IF expression THEN statements elseif_list END
+Rule 13    elseif_list -> elseif_list ELSEIF expression THEN statements
+Rule 14    elseif_list -> empty
+Rule 15    empty -> <empty>
+Rule 16    statement -> LOCAL NAME ATRIB expression
+Rule 17    statement -> NAME ATRIB expression
+Rule 18    statement -> PRINT LPAREN expression RPAREN
+Rule 19    statement -> RETURN expression
+Rule 20    statement -> function_call
+Rule 21    parameters -> NAME COMMA parameters
+Rule 22    parameters -> NAME
+Rule 23    parameters -> <empty>
+Rule 24    arguments -> expression COMMA arguments
+Rule 25    arguments -> expression
+Rule 26    arguments -> <empty>
+Rule 27    expression -> MINUS expression
+Rule 28    expression -> NOT expression
+Rule 29    expression -> expression PLUS expression
+Rule 30    expression -> expression MINUS expression
+Rule 31    expression -> expression TIMES expression
+Rule 32    expression -> expression DIVIDE expression
+Rule 33    expression -> expression EQUALS expression
+Rule 34    expression -> expression LTEQUALS expression
+Rule 35    expression -> expression GTEQUALS expression
+Rule 36    expression -> expression LT expression
+Rule 37    expression -> expression GT expression
+Rule 38    expression -> expression AND expression
+Rule 39    expression -> expression OR expression
+Rule 40    expression -> function_call
+Rule 41    function_call -> NAME LPAREN arguments RPAREN
+Rule 42    expression -> NUMBER
+Rule 43    expression -> STRING
+Rule 44    expression -> NAME
+Rule 45    expression -> TRUE
+Rule 46    expression -> FALSE
+Rule 47    expression -> NIL
+
+Terminals, with rules where they appear
+
+AND                  : 38
+ATRIB                : 7 8 16 17
+BRACE                : 
+BREAK                : 
+COLCH                : 
+COLON                : 
+COMMA                : 7 8 8 21 24
+CONCAT               : 
+DIF                  : 
+DIVIDE               : 32
+DO                   : 6 7 8
+DOT                  : 
+DUALCOLON            : 
+ELSE                 : 10 11
+ELSEIF               : 13
+END                  : 5 6 7 8 9 10 11 12
+EQUALS               : 33
+EXPO                 : 
+FALSE                : 46
+FOR                  : 7 8
+FUNCTION             : 5
+GT                   : 37
+GTEQUALS             : 35
+IF                   : 9 10 11 12
+IN                   : 
+LOCAL                : 16
+LPAREN               : 5 18 41
+LT                   : 36
+LTEQUALS             : 34
+MINUS                : 27 30
+NAME                 : 5 7 8 16 17 21 22 41 44
+NIL                  : 47
+NOT                  : 28
+NUMBER               : 42
+OR                   : 39
+PERCENTUAL           : 
+PLUS                 : 29
+PRINT                : 18
+RBRACE               : 
+RCOLCH               : 
+REPEAT               : 
+RETURN               : 19
+RPAREN               : 5 18 41
+SEMICOLON            : 
+STRING               : 43
+TAG                  : 
+THEN                 : 9 10 11 12 13
+TIMES                : 31
+TRUE                 : 45
+UNTIL                : 
+VARARGS              : 
+WHILE                : 6
+error                : 
+
+Nonterminals, with rules where they appear
+
+arguments            : 24 41
+elseif_list          : 11 12 13
+empty                : 2 14
+expression           : 6 7 7 8 8 8 9 10 11 12 13 16 17 18 19 24 25 27 28 29 29 30 30 31 31 32 32 33 33 34 34 35 35 36 36 37 37 38 38 39 39
+function_call        : 20 40
+parameters           : 5 21
+program              : 0
+statement            : 3 4
+statements           : 1 3 5 6 7 8 9 10 10 11 11 12 13
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . statements
+    (2) program -> . empty
+    (3) statements -> . statement statements
+    (4) statements -> . statement
+    (15) empty -> .
+    (5) statement -> . FUNCTION NAME LPAREN parameters RPAREN statements END
+    (6) statement -> . WHILE expression DO statements END
+    (7) statement -> . FOR NAME ATRIB expression COMMA expression DO statements END
+    (8) statement -> . FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END
+    (9) statement -> . IF expression THEN statements END
+    (10) statement -> . IF expression THEN statements ELSE statements END
+    (11) statement -> . IF expression THEN statements elseif_list ELSE statements END
+    (12) statement -> . IF expression THEN statements elseif_list END
+    (16) statement -> . LOCAL NAME ATRIB expression
+    (17) statement -> . NAME ATRIB expression
+    (18) statement -> . PRINT LPAREN expression RPAREN
+    (19) statement -> . RETURN expression
+    (20) statement -> . function_call
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    $end            reduce using rule 15 (empty -> .)
+    FUNCTION        shift and go to state 5
+    WHILE           shift and go to state 7
+    FOR             shift and go to state 8
+    IF              shift and go to state 9
+    LOCAL           shift and go to state 10
+    NAME            shift and go to state 6
+    PRINT           shift and go to state 11
+    RETURN          shift and go to state 12
+
+    program                        shift and go to state 1
+    statements                     shift and go to state 2
+    empty                          shift and go to state 3
+    statement                      shift and go to state 4
+    function_call                  shift and go to state 13
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> statements .
+
+    $end            reduce using rule 1 (program -> statements .)
+
+
+state 3
+
+    (2) program -> empty .
+
+    $end            reduce using rule 2 (program -> empty .)
+
+
+state 4
+
+    (3) statements -> statement . statements
+    (4) statements -> statement .
+    (3) statements -> . statement statements
+    (4) statements -> . statement
+    (5) statement -> . FUNCTION NAME LPAREN parameters RPAREN statements END
+    (6) statement -> . WHILE expression DO statements END
+    (7) statement -> . FOR NAME ATRIB expression COMMA expression DO statements END
+    (8) statement -> . FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END
+    (9) statement -> . IF expression THEN statements END
+    (10) statement -> . IF expression THEN statements ELSE statements END
+    (11) statement -> . IF expression THEN statements elseif_list ELSE statements END
+    (12) statement -> . IF expression THEN statements elseif_list END
+    (16) statement -> . LOCAL NAME ATRIB expression
+    (17) statement -> . NAME ATRIB expression
+    (18) statement -> . PRINT LPAREN expression RPAREN
+    (19) statement -> . RETURN expression
+    (20) statement -> . function_call
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    $end            reduce using rule 4 (statements -> statement .)
+    END             reduce using rule 4 (statements -> statement .)
+    ELSE            reduce using rule 4 (statements -> statement .)
+    ELSEIF          reduce using rule 4 (statements -> statement .)
+    FUNCTION        shift and go to state 5
+    WHILE           shift and go to state 7
+    FOR             shift and go to state 8
+    IF              shift and go to state 9
+    LOCAL           shift and go to state 10
+    NAME            shift and go to state 6
+    PRINT           shift and go to state 11
+    RETURN          shift and go to state 12
+
+    statement                      shift and go to state 4
+    statements                     shift and go to state 14
+    function_call                  shift and go to state 13
+
+state 5
+
+    (5) statement -> FUNCTION . NAME LPAREN parameters RPAREN statements END
+
+    NAME            shift and go to state 15
+
+
+state 6
+
+    (17) statement -> NAME . ATRIB expression
+    (41) function_call -> NAME . LPAREN arguments RPAREN
+
+    ATRIB           shift and go to state 16
+    LPAREN          shift and go to state 17
+
+
+state 7
+
+    (6) statement -> WHILE . expression DO statements END
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 18
+    function_call                  shift and go to state 21
+
+state 8
+
+    (7) statement -> FOR . NAME ATRIB expression COMMA expression DO statements END
+    (8) statement -> FOR . NAME ATRIB expression COMMA expression COMMA expression DO statements END
+
+    NAME            shift and go to state 28
+
+
+state 9
+
+    (9) statement -> IF . expression THEN statements END
+    (10) statement -> IF . expression THEN statements ELSE statements END
+    (11) statement -> IF . expression THEN statements elseif_list ELSE statements END
+    (12) statement -> IF . expression THEN statements elseif_list END
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 29
+    function_call                  shift and go to state 21
+
+state 10
+
+    (16) statement -> LOCAL . NAME ATRIB expression
+
+    NAME            shift and go to state 30
+
+
+state 11
+
+    (18) statement -> PRINT . LPAREN expression RPAREN
+
+    LPAREN          shift and go to state 31
+
+
+state 12
+
+    (19) statement -> RETURN . expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 32
+    function_call                  shift and go to state 21
+
+state 13
+
+    (20) statement -> function_call .
+
+    FUNCTION        reduce using rule 20 (statement -> function_call .)
+    WHILE           reduce using rule 20 (statement -> function_call .)
+    FOR             reduce using rule 20 (statement -> function_call .)
+    IF              reduce using rule 20 (statement -> function_call .)
+    LOCAL           reduce using rule 20 (statement -> function_call .)
+    NAME            reduce using rule 20 (statement -> function_call .)
+    PRINT           reduce using rule 20 (statement -> function_call .)
+    RETURN          reduce using rule 20 (statement -> function_call .)
+    $end            reduce using rule 20 (statement -> function_call .)
+    END             reduce using rule 20 (statement -> function_call .)
+    ELSE            reduce using rule 20 (statement -> function_call .)
+    ELSEIF          reduce using rule 20 (statement -> function_call .)
+
+
+state 14
+
+    (3) statements -> statement statements .
+
+    $end            reduce using rule 3 (statements -> statement statements .)
+    END             reduce using rule 3 (statements -> statement statements .)
+    ELSE            reduce using rule 3 (statements -> statement statements .)
+    ELSEIF          reduce using rule 3 (statements -> statement statements .)
+
+
+state 15
+
+    (5) statement -> FUNCTION NAME . LPAREN parameters RPAREN statements END
+
+    LPAREN          shift and go to state 33
+
+
+state 16
+
+    (17) statement -> NAME ATRIB . expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 34
+    function_call                  shift and go to state 21
+
+state 17
+
+    (41) function_call -> NAME LPAREN . arguments RPAREN
+    (24) arguments -> . expression COMMA arguments
+    (25) arguments -> . expression
+    (26) arguments -> .
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    RPAREN          reduce using rule 26 (arguments -> .)
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    arguments                      shift and go to state 35
+    expression                     shift and go to state 36
+    function_call                  shift and go to state 21
+
+state 18
+
+    (6) statement -> WHILE expression . DO statements END
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    DO              shift and go to state 37
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EQUALS          shift and go to state 42
+    LTEQUALS        shift and go to state 43
+    GTEQUALS        shift and go to state 44
+    LT              shift and go to state 45
+    GT              shift and go to state 46
+    AND             shift and go to state 47
+    OR              shift and go to state 48
+
+
+state 19
+
+    (27) expression -> MINUS . expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 49
+    function_call                  shift and go to state 21
+
+state 20
+
+    (28) expression -> NOT . expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 50
+    function_call                  shift and go to state 21
+
+state 21
+
+    (40) expression -> function_call .
+
+    DO              reduce using rule 40 (expression -> function_call .)
+    PLUS            reduce using rule 40 (expression -> function_call .)
+    MINUS           reduce using rule 40 (expression -> function_call .)
+    TIMES           reduce using rule 40 (expression -> function_call .)
+    DIVIDE          reduce using rule 40 (expression -> function_call .)
+    EQUALS          reduce using rule 40 (expression -> function_call .)
+    LTEQUALS        reduce using rule 40 (expression -> function_call .)
+    GTEQUALS        reduce using rule 40 (expression -> function_call .)
+    LT              reduce using rule 40 (expression -> function_call .)
+    GT              reduce using rule 40 (expression -> function_call .)
+    AND             reduce using rule 40 (expression -> function_call .)
+    OR              reduce using rule 40 (expression -> function_call .)
+    THEN            reduce using rule 40 (expression -> function_call .)
+    FUNCTION        reduce using rule 40 (expression -> function_call .)
+    WHILE           reduce using rule 40 (expression -> function_call .)
+    FOR             reduce using rule 40 (expression -> function_call .)
+    IF              reduce using rule 40 (expression -> function_call .)
+    LOCAL           reduce using rule 40 (expression -> function_call .)
+    NAME            reduce using rule 40 (expression -> function_call .)
+    PRINT           reduce using rule 40 (expression -> function_call .)
+    RETURN          reduce using rule 40 (expression -> function_call .)
+    $end            reduce using rule 40 (expression -> function_call .)
+    END             reduce using rule 40 (expression -> function_call .)
+    ELSE            reduce using rule 40 (expression -> function_call .)
+    ELSEIF          reduce using rule 40 (expression -> function_call .)
+    COMMA           reduce using rule 40 (expression -> function_call .)
+    RPAREN          reduce using rule 40 (expression -> function_call .)
+
+
+state 22
+
+    (42) expression -> NUMBER .
+
+    DO              reduce using rule 42 (expression -> NUMBER .)
+    PLUS            reduce using rule 42 (expression -> NUMBER .)
+    MINUS           reduce using rule 42 (expression -> NUMBER .)
+    TIMES           reduce using rule 42 (expression -> NUMBER .)
+    DIVIDE          reduce using rule 42 (expression -> NUMBER .)
+    EQUALS          reduce using rule 42 (expression -> NUMBER .)
+    LTEQUALS        reduce using rule 42 (expression -> NUMBER .)
+    GTEQUALS        reduce using rule 42 (expression -> NUMBER .)
+    LT              reduce using rule 42 (expression -> NUMBER .)
+    GT              reduce using rule 42 (expression -> NUMBER .)
+    AND             reduce using rule 42 (expression -> NUMBER .)
+    OR              reduce using rule 42 (expression -> NUMBER .)
+    THEN            reduce using rule 42 (expression -> NUMBER .)
+    FUNCTION        reduce using rule 42 (expression -> NUMBER .)
+    WHILE           reduce using rule 42 (expression -> NUMBER .)
+    FOR             reduce using rule 42 (expression -> NUMBER .)
+    IF              reduce using rule 42 (expression -> NUMBER .)
+    LOCAL           reduce using rule 42 (expression -> NUMBER .)
+    NAME            reduce using rule 42 (expression -> NUMBER .)
+    PRINT           reduce using rule 42 (expression -> NUMBER .)
+    RETURN          reduce using rule 42 (expression -> NUMBER .)
+    $end            reduce using rule 42 (expression -> NUMBER .)
+    END             reduce using rule 42 (expression -> NUMBER .)
+    ELSE            reduce using rule 42 (expression -> NUMBER .)
+    ELSEIF          reduce using rule 42 (expression -> NUMBER .)
+    COMMA           reduce using rule 42 (expression -> NUMBER .)
+    RPAREN          reduce using rule 42 (expression -> NUMBER .)
+
+
+state 23
+
+    (43) expression -> STRING .
+
+    DO              reduce using rule 43 (expression -> STRING .)
+    PLUS            reduce using rule 43 (expression -> STRING .)
+    MINUS           reduce using rule 43 (expression -> STRING .)
+    TIMES           reduce using rule 43 (expression -> STRING .)
+    DIVIDE          reduce using rule 43 (expression -> STRING .)
+    EQUALS          reduce using rule 43 (expression -> STRING .)
+    LTEQUALS        reduce using rule 43 (expression -> STRING .)
+    GTEQUALS        reduce using rule 43 (expression -> STRING .)
+    LT              reduce using rule 43 (expression -> STRING .)
+    GT              reduce using rule 43 (expression -> STRING .)
+    AND             reduce using rule 43 (expression -> STRING .)
+    OR              reduce using rule 43 (expression -> STRING .)
+    THEN            reduce using rule 43 (expression -> STRING .)
+    FUNCTION        reduce using rule 43 (expression -> STRING .)
+    WHILE           reduce using rule 43 (expression -> STRING .)
+    FOR             reduce using rule 43 (expression -> STRING .)
+    IF              reduce using rule 43 (expression -> STRING .)
+    LOCAL           reduce using rule 43 (expression -> STRING .)
+    NAME            reduce using rule 43 (expression -> STRING .)
+    PRINT           reduce using rule 43 (expression -> STRING .)
+    RETURN          reduce using rule 43 (expression -> STRING .)
+    $end            reduce using rule 43 (expression -> STRING .)
+    END             reduce using rule 43 (expression -> STRING .)
+    ELSE            reduce using rule 43 (expression -> STRING .)
+    ELSEIF          reduce using rule 43 (expression -> STRING .)
+    COMMA           reduce using rule 43 (expression -> STRING .)
+    RPAREN          reduce using rule 43 (expression -> STRING .)
+
+
+state 24
+
+    (44) expression -> NAME .
+    (41) function_call -> NAME . LPAREN arguments RPAREN
+
+    DO              reduce using rule 44 (expression -> NAME .)
+    PLUS            reduce using rule 44 (expression -> NAME .)
+    MINUS           reduce using rule 44 (expression -> NAME .)
+    TIMES           reduce using rule 44 (expression -> NAME .)
+    DIVIDE          reduce using rule 44 (expression -> NAME .)
+    EQUALS          reduce using rule 44 (expression -> NAME .)
+    LTEQUALS        reduce using rule 44 (expression -> NAME .)
+    GTEQUALS        reduce using rule 44 (expression -> NAME .)
+    LT              reduce using rule 44 (expression -> NAME .)
+    GT              reduce using rule 44 (expression -> NAME .)
+    AND             reduce using rule 44 (expression -> NAME .)
+    OR              reduce using rule 44 (expression -> NAME .)
+    THEN            reduce using rule 44 (expression -> NAME .)
+    FUNCTION        reduce using rule 44 (expression -> NAME .)
+    WHILE           reduce using rule 44 (expression -> NAME .)
+    FOR             reduce using rule 44 (expression -> NAME .)
+    IF              reduce using rule 44 (expression -> NAME .)
+    LOCAL           reduce using rule 44 (expression -> NAME .)
+    NAME            reduce using rule 44 (expression -> NAME .)
+    PRINT           reduce using rule 44 (expression -> NAME .)
+    RETURN          reduce using rule 44 (expression -> NAME .)
+    $end            reduce using rule 44 (expression -> NAME .)
+    END             reduce using rule 44 (expression -> NAME .)
+    ELSE            reduce using rule 44 (expression -> NAME .)
+    ELSEIF          reduce using rule 44 (expression -> NAME .)
+    COMMA           reduce using rule 44 (expression -> NAME .)
+    RPAREN          reduce using rule 44 (expression -> NAME .)
+    LPAREN          shift and go to state 17
+
+
+state 25
+
+    (45) expression -> TRUE .
+
+    DO              reduce using rule 45 (expression -> TRUE .)
+    PLUS            reduce using rule 45 (expression -> TRUE .)
+    MINUS           reduce using rule 45 (expression -> TRUE .)
+    TIMES           reduce using rule 45 (expression -> TRUE .)
+    DIVIDE          reduce using rule 45 (expression -> TRUE .)
+    EQUALS          reduce using rule 45 (expression -> TRUE .)
+    LTEQUALS        reduce using rule 45 (expression -> TRUE .)
+    GTEQUALS        reduce using rule 45 (expression -> TRUE .)
+    LT              reduce using rule 45 (expression -> TRUE .)
+    GT              reduce using rule 45 (expression -> TRUE .)
+    AND             reduce using rule 45 (expression -> TRUE .)
+    OR              reduce using rule 45 (expression -> TRUE .)
+    THEN            reduce using rule 45 (expression -> TRUE .)
+    FUNCTION        reduce using rule 45 (expression -> TRUE .)
+    WHILE           reduce using rule 45 (expression -> TRUE .)
+    FOR             reduce using rule 45 (expression -> TRUE .)
+    IF              reduce using rule 45 (expression -> TRUE .)
+    LOCAL           reduce using rule 45 (expression -> TRUE .)
+    NAME            reduce using rule 45 (expression -> TRUE .)
+    PRINT           reduce using rule 45 (expression -> TRUE .)
+    RETURN          reduce using rule 45 (expression -> TRUE .)
+    $end            reduce using rule 45 (expression -> TRUE .)
+    END             reduce using rule 45 (expression -> TRUE .)
+    ELSE            reduce using rule 45 (expression -> TRUE .)
+    ELSEIF          reduce using rule 45 (expression -> TRUE .)
+    COMMA           reduce using rule 45 (expression -> TRUE .)
+    RPAREN          reduce using rule 45 (expression -> TRUE .)
+
+
+state 26
+
+    (46) expression -> FALSE .
+
+    DO              reduce using rule 46 (expression -> FALSE .)
+    PLUS            reduce using rule 46 (expression -> FALSE .)
+    MINUS           reduce using rule 46 (expression -> FALSE .)
+    TIMES           reduce using rule 46 (expression -> FALSE .)
+    DIVIDE          reduce using rule 46 (expression -> FALSE .)
+    EQUALS          reduce using rule 46 (expression -> FALSE .)
+    LTEQUALS        reduce using rule 46 (expression -> FALSE .)
+    GTEQUALS        reduce using rule 46 (expression -> FALSE .)
+    LT              reduce using rule 46 (expression -> FALSE .)
+    GT              reduce using rule 46 (expression -> FALSE .)
+    AND             reduce using rule 46 (expression -> FALSE .)
+    OR              reduce using rule 46 (expression -> FALSE .)
+    THEN            reduce using rule 46 (expression -> FALSE .)
+    FUNCTION        reduce using rule 46 (expression -> FALSE .)
+    WHILE           reduce using rule 46 (expression -> FALSE .)
+    FOR             reduce using rule 46 (expression -> FALSE .)
+    IF              reduce using rule 46 (expression -> FALSE .)
+    LOCAL           reduce using rule 46 (expression -> FALSE .)
+    NAME            reduce using rule 46 (expression -> FALSE .)
+    PRINT           reduce using rule 46 (expression -> FALSE .)
+    RETURN          reduce using rule 46 (expression -> FALSE .)
+    $end            reduce using rule 46 (expression -> FALSE .)
+    END             reduce using rule 46 (expression -> FALSE .)
+    ELSE            reduce using rule 46 (expression -> FALSE .)
+    ELSEIF          reduce using rule 46 (expression -> FALSE .)
+    COMMA           reduce using rule 46 (expression -> FALSE .)
+    RPAREN          reduce using rule 46 (expression -> FALSE .)
+
+
+state 27
+
+    (47) expression -> NIL .
+
+    DO              reduce using rule 47 (expression -> NIL .)
+    PLUS            reduce using rule 47 (expression -> NIL .)
+    MINUS           reduce using rule 47 (expression -> NIL .)
+    TIMES           reduce using rule 47 (expression -> NIL .)
+    DIVIDE          reduce using rule 47 (expression -> NIL .)
+    EQUALS          reduce using rule 47 (expression -> NIL .)
+    LTEQUALS        reduce using rule 47 (expression -> NIL .)
+    GTEQUALS        reduce using rule 47 (expression -> NIL .)
+    LT              reduce using rule 47 (expression -> NIL .)
+    GT              reduce using rule 47 (expression -> NIL .)
+    AND             reduce using rule 47 (expression -> NIL .)
+    OR              reduce using rule 47 (expression -> NIL .)
+    THEN            reduce using rule 47 (expression -> NIL .)
+    FUNCTION        reduce using rule 47 (expression -> NIL .)
+    WHILE           reduce using rule 47 (expression -> NIL .)
+    FOR             reduce using rule 47 (expression -> NIL .)
+    IF              reduce using rule 47 (expression -> NIL .)
+    LOCAL           reduce using rule 47 (expression -> NIL .)
+    NAME            reduce using rule 47 (expression -> NIL .)
+    PRINT           reduce using rule 47 (expression -> NIL .)
+    RETURN          reduce using rule 47 (expression -> NIL .)
+    $end            reduce using rule 47 (expression -> NIL .)
+    END             reduce using rule 47 (expression -> NIL .)
+    ELSE            reduce using rule 47 (expression -> NIL .)
+    ELSEIF          reduce using rule 47 (expression -> NIL .)
+    COMMA           reduce using rule 47 (expression -> NIL .)
+    RPAREN          reduce using rule 47 (expression -> NIL .)
+
+
+state 28
+
+    (7) statement -> FOR NAME . ATRIB expression COMMA expression DO statements END
+    (8) statement -> FOR NAME . ATRIB expression COMMA expression COMMA expression DO statements END
+
+    ATRIB           shift and go to state 51
+
+
+state 29
+
+    (9) statement -> IF expression . THEN statements END
+    (10) statement -> IF expression . THEN statements ELSE statements END
+    (11) statement -> IF expression . THEN statements elseif_list ELSE statements END
+    (12) statement -> IF expression . THEN statements elseif_list END
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    THEN            shift and go to state 52
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EQUALS          shift and go to state 42
+    LTEQUALS        shift and go to state 43
+    GTEQUALS        shift and go to state 44
+    LT              shift and go to state 45
+    GT              shift and go to state 46
+    AND             shift and go to state 47
+    OR              shift and go to state 48
+
+
+state 30
+
+    (16) statement -> LOCAL NAME . ATRIB expression
+
+    ATRIB           shift and go to state 53
+
+
+state 31
+
+    (18) statement -> PRINT LPAREN . expression RPAREN
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 54
+    function_call                  shift and go to state 21
+
+state 32
+
+    (19) statement -> RETURN expression .
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    FUNCTION        reduce using rule 19 (statement -> RETURN expression .)
+    WHILE           reduce using rule 19 (statement -> RETURN expression .)
+    FOR             reduce using rule 19 (statement -> RETURN expression .)
+    IF              reduce using rule 19 (statement -> RETURN expression .)
+    LOCAL           reduce using rule 19 (statement -> RETURN expression .)
+    NAME            reduce using rule 19 (statement -> RETURN expression .)
+    PRINT           reduce using rule 19 (statement -> RETURN expression .)
+    RETURN          reduce using rule 19 (statement -> RETURN expression .)
+    $end            reduce using rule 19 (statement -> RETURN expression .)
+    END             reduce using rule 19 (statement -> RETURN expression .)
+    ELSE            reduce using rule 19 (statement -> RETURN expression .)
+    ELSEIF          reduce using rule 19 (statement -> RETURN expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EQUALS          shift and go to state 42
+    LTEQUALS        shift and go to state 43
+    GTEQUALS        shift and go to state 44
+    LT              shift and go to state 45
+    GT              shift and go to state 46
+    AND             shift and go to state 47
+    OR              shift and go to state 48
+
+
+state 33
+
+    (5) statement -> FUNCTION NAME LPAREN . parameters RPAREN statements END
+    (21) parameters -> . NAME COMMA parameters
+    (22) parameters -> . NAME
+    (23) parameters -> .
+
+    NAME            shift and go to state 55
+    RPAREN          reduce using rule 23 (parameters -> .)
+
+    parameters                     shift and go to state 56
+
+state 34
+
+    (17) statement -> NAME ATRIB expression .
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    FUNCTION        reduce using rule 17 (statement -> NAME ATRIB expression .)
+    WHILE           reduce using rule 17 (statement -> NAME ATRIB expression .)
+    FOR             reduce using rule 17 (statement -> NAME ATRIB expression .)
+    IF              reduce using rule 17 (statement -> NAME ATRIB expression .)
+    LOCAL           reduce using rule 17 (statement -> NAME ATRIB expression .)
+    NAME            reduce using rule 17 (statement -> NAME ATRIB expression .)
+    PRINT           reduce using rule 17 (statement -> NAME ATRIB expression .)
+    RETURN          reduce using rule 17 (statement -> NAME ATRIB expression .)
+    $end            reduce using rule 17 (statement -> NAME ATRIB expression .)
+    END             reduce using rule 17 (statement -> NAME ATRIB expression .)
+    ELSE            reduce using rule 17 (statement -> NAME ATRIB expression .)
+    ELSEIF          reduce using rule 17 (statement -> NAME ATRIB expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EQUALS          shift and go to state 42
+    LTEQUALS        shift and go to state 43
+    GTEQUALS        shift and go to state 44
+    LT              shift and go to state 45
+    GT              shift and go to state 46
+    AND             shift and go to state 47
+    OR              shift and go to state 48
+
+
+state 35
+
+    (41) function_call -> NAME LPAREN arguments . RPAREN
+
+    RPAREN          shift and go to state 57
+
+
+state 36
+
+    (24) arguments -> expression . COMMA arguments
+    (25) arguments -> expression .
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    COMMA           shift and go to state 58
+    RPAREN          reduce using rule 25 (arguments -> expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EQUALS          shift and go to state 42
+    LTEQUALS        shift and go to state 43
+    GTEQUALS        shift and go to state 44
+    LT              shift and go to state 45
+    GT              shift and go to state 46
+    AND             shift and go to state 47
+    OR              shift and go to state 48
+
+
+state 37
+
+    (6) statement -> WHILE expression DO . statements END
+    (3) statements -> . statement statements
+    (4) statements -> . statement
+    (5) statement -> . FUNCTION NAME LPAREN parameters RPAREN statements END
+    (6) statement -> . WHILE expression DO statements END
+    (7) statement -> . FOR NAME ATRIB expression COMMA expression DO statements END
+    (8) statement -> . FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END
+    (9) statement -> . IF expression THEN statements END
+    (10) statement -> . IF expression THEN statements ELSE statements END
+    (11) statement -> . IF expression THEN statements elseif_list ELSE statements END
+    (12) statement -> . IF expression THEN statements elseif_list END
+    (16) statement -> . LOCAL NAME ATRIB expression
+    (17) statement -> . NAME ATRIB expression
+    (18) statement -> . PRINT LPAREN expression RPAREN
+    (19) statement -> . RETURN expression
+    (20) statement -> . function_call
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    FUNCTION        shift and go to state 5
+    WHILE           shift and go to state 7
+    FOR             shift and go to state 8
+    IF              shift and go to state 9
+    LOCAL           shift and go to state 10
+    NAME            shift and go to state 6
+    PRINT           shift and go to state 11
+    RETURN          shift and go to state 12
+
+    statements                     shift and go to state 59
+    statement                      shift and go to state 4
+    function_call                  shift and go to state 13
+
+state 38
+
+    (29) expression -> expression PLUS . expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 60
+    function_call                  shift and go to state 21
+
+state 39
+
+    (30) expression -> expression MINUS . expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 61
+    function_call                  shift and go to state 21
+
+state 40
+
+    (31) expression -> expression TIMES . expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 62
+    function_call                  shift and go to state 21
+
+state 41
+
+    (32) expression -> expression DIVIDE . expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 63
+    function_call                  shift and go to state 21
+
+state 42
+
+    (33) expression -> expression EQUALS . expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 64
+    function_call                  shift and go to state 21
+
+state 43
+
+    (34) expression -> expression LTEQUALS . expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 65
+    function_call                  shift and go to state 21
+
+state 44
+
+    (35) expression -> expression GTEQUALS . expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 66
+    function_call                  shift and go to state 21
+
+state 45
+
+    (36) expression -> expression LT . expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 67
+    function_call                  shift and go to state 21
+
+state 46
+
+    (37) expression -> expression GT . expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 68
+    function_call                  shift and go to state 21
+
+state 47
+
+    (38) expression -> expression AND . expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 69
+    function_call                  shift and go to state 21
+
+state 48
+
+    (39) expression -> expression OR . expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 70
+    function_call                  shift and go to state 21
+
+state 49
+
+    (27) expression -> MINUS expression .
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    DO              reduce using rule 27 (expression -> MINUS expression .)
+    PLUS            reduce using rule 27 (expression -> MINUS expression .)
+    MINUS           reduce using rule 27 (expression -> MINUS expression .)
+    TIMES           reduce using rule 27 (expression -> MINUS expression .)
+    DIVIDE          reduce using rule 27 (expression -> MINUS expression .)
+    EQUALS          reduce using rule 27 (expression -> MINUS expression .)
+    LTEQUALS        reduce using rule 27 (expression -> MINUS expression .)
+    GTEQUALS        reduce using rule 27 (expression -> MINUS expression .)
+    LT              reduce using rule 27 (expression -> MINUS expression .)
+    GT              reduce using rule 27 (expression -> MINUS expression .)
+    AND             reduce using rule 27 (expression -> MINUS expression .)
+    OR              reduce using rule 27 (expression -> MINUS expression .)
+    THEN            reduce using rule 27 (expression -> MINUS expression .)
+    FUNCTION        reduce using rule 27 (expression -> MINUS expression .)
+    WHILE           reduce using rule 27 (expression -> MINUS expression .)
+    FOR             reduce using rule 27 (expression -> MINUS expression .)
+    IF              reduce using rule 27 (expression -> MINUS expression .)
+    LOCAL           reduce using rule 27 (expression -> MINUS expression .)
+    NAME            reduce using rule 27 (expression -> MINUS expression .)
+    PRINT           reduce using rule 27 (expression -> MINUS expression .)
+    RETURN          reduce using rule 27 (expression -> MINUS expression .)
+    $end            reduce using rule 27 (expression -> MINUS expression .)
+    END             reduce using rule 27 (expression -> MINUS expression .)
+    ELSE            reduce using rule 27 (expression -> MINUS expression .)
+    ELSEIF          reduce using rule 27 (expression -> MINUS expression .)
+    COMMA           reduce using rule 27 (expression -> MINUS expression .)
+    RPAREN          reduce using rule 27 (expression -> MINUS expression .)
+
+  ! PLUS            [ shift and go to state 38 ]
+  ! MINUS           [ shift and go to state 39 ]
+  ! TIMES           [ shift and go to state 40 ]
+  ! DIVIDE          [ shift and go to state 41 ]
+  ! EQUALS          [ shift and go to state 42 ]
+  ! LTEQUALS        [ shift and go to state 43 ]
+  ! GTEQUALS        [ shift and go to state 44 ]
+  ! LT              [ shift and go to state 45 ]
+  ! GT              [ shift and go to state 46 ]
+  ! AND             [ shift and go to state 47 ]
+  ! OR              [ shift and go to state 48 ]
+
+
+state 50
+
+    (28) expression -> NOT expression .
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    DO              reduce using rule 28 (expression -> NOT expression .)
+    PLUS            reduce using rule 28 (expression -> NOT expression .)
+    MINUS           reduce using rule 28 (expression -> NOT expression .)
+    TIMES           reduce using rule 28 (expression -> NOT expression .)
+    DIVIDE          reduce using rule 28 (expression -> NOT expression .)
+    EQUALS          reduce using rule 28 (expression -> NOT expression .)
+    LTEQUALS        reduce using rule 28 (expression -> NOT expression .)
+    GTEQUALS        reduce using rule 28 (expression -> NOT expression .)
+    LT              reduce using rule 28 (expression -> NOT expression .)
+    GT              reduce using rule 28 (expression -> NOT expression .)
+    AND             reduce using rule 28 (expression -> NOT expression .)
+    OR              reduce using rule 28 (expression -> NOT expression .)
+    THEN            reduce using rule 28 (expression -> NOT expression .)
+    FUNCTION        reduce using rule 28 (expression -> NOT expression .)
+    WHILE           reduce using rule 28 (expression -> NOT expression .)
+    FOR             reduce using rule 28 (expression -> NOT expression .)
+    IF              reduce using rule 28 (expression -> NOT expression .)
+    LOCAL           reduce using rule 28 (expression -> NOT expression .)
+    NAME            reduce using rule 28 (expression -> NOT expression .)
+    PRINT           reduce using rule 28 (expression -> NOT expression .)
+    RETURN          reduce using rule 28 (expression -> NOT expression .)
+    $end            reduce using rule 28 (expression -> NOT expression .)
+    END             reduce using rule 28 (expression -> NOT expression .)
+    ELSE            reduce using rule 28 (expression -> NOT expression .)
+    ELSEIF          reduce using rule 28 (expression -> NOT expression .)
+    COMMA           reduce using rule 28 (expression -> NOT expression .)
+    RPAREN          reduce using rule 28 (expression -> NOT expression .)
+
+  ! PLUS            [ shift and go to state 38 ]
+  ! MINUS           [ shift and go to state 39 ]
+  ! TIMES           [ shift and go to state 40 ]
+  ! DIVIDE          [ shift and go to state 41 ]
+  ! EQUALS          [ shift and go to state 42 ]
+  ! LTEQUALS        [ shift and go to state 43 ]
+  ! GTEQUALS        [ shift and go to state 44 ]
+  ! LT              [ shift and go to state 45 ]
+  ! GT              [ shift and go to state 46 ]
+  ! AND             [ shift and go to state 47 ]
+  ! OR              [ shift and go to state 48 ]
+
+
+state 51
+
+    (7) statement -> FOR NAME ATRIB . expression COMMA expression DO statements END
+    (8) statement -> FOR NAME ATRIB . expression COMMA expression COMMA expression DO statements END
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 71
+    function_call                  shift and go to state 21
+
+state 52
+
+    (9) statement -> IF expression THEN . statements END
+    (10) statement -> IF expression THEN . statements ELSE statements END
+    (11) statement -> IF expression THEN . statements elseif_list ELSE statements END
+    (12) statement -> IF expression THEN . statements elseif_list END
+    (3) statements -> . statement statements
+    (4) statements -> . statement
+    (5) statement -> . FUNCTION NAME LPAREN parameters RPAREN statements END
+    (6) statement -> . WHILE expression DO statements END
+    (7) statement -> . FOR NAME ATRIB expression COMMA expression DO statements END
+    (8) statement -> . FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END
+    (9) statement -> . IF expression THEN statements END
+    (10) statement -> . IF expression THEN statements ELSE statements END
+    (11) statement -> . IF expression THEN statements elseif_list ELSE statements END
+    (12) statement -> . IF expression THEN statements elseif_list END
+    (16) statement -> . LOCAL NAME ATRIB expression
+    (17) statement -> . NAME ATRIB expression
+    (18) statement -> . PRINT LPAREN expression RPAREN
+    (19) statement -> . RETURN expression
+    (20) statement -> . function_call
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    FUNCTION        shift and go to state 5
+    WHILE           shift and go to state 7
+    FOR             shift and go to state 8
+    IF              shift and go to state 9
+    LOCAL           shift and go to state 10
+    NAME            shift and go to state 6
+    PRINT           shift and go to state 11
+    RETURN          shift and go to state 12
+
+    statements                     shift and go to state 72
+    statement                      shift and go to state 4
+    function_call                  shift and go to state 13
+
+state 53
+
+    (16) statement -> LOCAL NAME ATRIB . expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 73
+    function_call                  shift and go to state 21
+
+state 54
+
+    (18) statement -> PRINT LPAREN expression . RPAREN
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    RPAREN          shift and go to state 74
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EQUALS          shift and go to state 42
+    LTEQUALS        shift and go to state 43
+    GTEQUALS        shift and go to state 44
+    LT              shift and go to state 45
+    GT              shift and go to state 46
+    AND             shift and go to state 47
+    OR              shift and go to state 48
+
+
+state 55
+
+    (21) parameters -> NAME . COMMA parameters
+    (22) parameters -> NAME .
+
+    COMMA           shift and go to state 75
+    RPAREN          reduce using rule 22 (parameters -> NAME .)
+
+
+state 56
+
+    (5) statement -> FUNCTION NAME LPAREN parameters . RPAREN statements END
+
+    RPAREN          shift and go to state 76
+
+
+state 57
+
+    (41) function_call -> NAME LPAREN arguments RPAREN .
+
+    FUNCTION        reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    WHILE           reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    FOR             reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    IF              reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    LOCAL           reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    NAME            reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    PRINT           reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    RETURN          reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    $end            reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    END             reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    ELSE            reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    ELSEIF          reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    DO              reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    PLUS            reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    MINUS           reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    TIMES           reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    DIVIDE          reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    EQUALS          reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    LTEQUALS        reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    GTEQUALS        reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    LT              reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    GT              reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    AND             reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    OR              reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    THEN            reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    COMMA           reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+    RPAREN          reduce using rule 41 (function_call -> NAME LPAREN arguments RPAREN .)
+
+
+state 58
+
+    (24) arguments -> expression COMMA . arguments
+    (24) arguments -> . expression COMMA arguments
+    (25) arguments -> . expression
+    (26) arguments -> .
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    RPAREN          reduce using rule 26 (arguments -> .)
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 36
+    arguments                      shift and go to state 77
+    function_call                  shift and go to state 21
+
+state 59
+
+    (6) statement -> WHILE expression DO statements . END
+
+    END             shift and go to state 78
+
+
+state 60
+
+    (29) expression -> expression PLUS expression .
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    DO              reduce using rule 29 (expression -> expression PLUS expression .)
+    PLUS            reduce using rule 29 (expression -> expression PLUS expression .)
+    MINUS           reduce using rule 29 (expression -> expression PLUS expression .)
+    EQUALS          reduce using rule 29 (expression -> expression PLUS expression .)
+    LTEQUALS        reduce using rule 29 (expression -> expression PLUS expression .)
+    GTEQUALS        reduce using rule 29 (expression -> expression PLUS expression .)
+    LT              reduce using rule 29 (expression -> expression PLUS expression .)
+    GT              reduce using rule 29 (expression -> expression PLUS expression .)
+    AND             reduce using rule 29 (expression -> expression PLUS expression .)
+    OR              reduce using rule 29 (expression -> expression PLUS expression .)
+    THEN            reduce using rule 29 (expression -> expression PLUS expression .)
+    FUNCTION        reduce using rule 29 (expression -> expression PLUS expression .)
+    WHILE           reduce using rule 29 (expression -> expression PLUS expression .)
+    FOR             reduce using rule 29 (expression -> expression PLUS expression .)
+    IF              reduce using rule 29 (expression -> expression PLUS expression .)
+    LOCAL           reduce using rule 29 (expression -> expression PLUS expression .)
+    NAME            reduce using rule 29 (expression -> expression PLUS expression .)
+    PRINT           reduce using rule 29 (expression -> expression PLUS expression .)
+    RETURN          reduce using rule 29 (expression -> expression PLUS expression .)
+    $end            reduce using rule 29 (expression -> expression PLUS expression .)
+    END             reduce using rule 29 (expression -> expression PLUS expression .)
+    ELSE            reduce using rule 29 (expression -> expression PLUS expression .)
+    ELSEIF          reduce using rule 29 (expression -> expression PLUS expression .)
+    COMMA           reduce using rule 29 (expression -> expression PLUS expression .)
+    RPAREN          reduce using rule 29 (expression -> expression PLUS expression .)
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+
+  ! TIMES           [ reduce using rule 29 (expression -> expression PLUS expression .) ]
+  ! DIVIDE          [ reduce using rule 29 (expression -> expression PLUS expression .) ]
+  ! PLUS            [ shift and go to state 38 ]
+  ! MINUS           [ shift and go to state 39 ]
+  ! EQUALS          [ shift and go to state 42 ]
+  ! LTEQUALS        [ shift and go to state 43 ]
+  ! GTEQUALS        [ shift and go to state 44 ]
+  ! LT              [ shift and go to state 45 ]
+  ! GT              [ shift and go to state 46 ]
+  ! AND             [ shift and go to state 47 ]
+  ! OR              [ shift and go to state 48 ]
+
+
+state 61
+
+    (30) expression -> expression MINUS expression .
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    DO              reduce using rule 30 (expression -> expression MINUS expression .)
+    PLUS            reduce using rule 30 (expression -> expression MINUS expression .)
+    MINUS           reduce using rule 30 (expression -> expression MINUS expression .)
+    EQUALS          reduce using rule 30 (expression -> expression MINUS expression .)
+    LTEQUALS        reduce using rule 30 (expression -> expression MINUS expression .)
+    GTEQUALS        reduce using rule 30 (expression -> expression MINUS expression .)
+    LT              reduce using rule 30 (expression -> expression MINUS expression .)
+    GT              reduce using rule 30 (expression -> expression MINUS expression .)
+    AND             reduce using rule 30 (expression -> expression MINUS expression .)
+    OR              reduce using rule 30 (expression -> expression MINUS expression .)
+    THEN            reduce using rule 30 (expression -> expression MINUS expression .)
+    FUNCTION        reduce using rule 30 (expression -> expression MINUS expression .)
+    WHILE           reduce using rule 30 (expression -> expression MINUS expression .)
+    FOR             reduce using rule 30 (expression -> expression MINUS expression .)
+    IF              reduce using rule 30 (expression -> expression MINUS expression .)
+    LOCAL           reduce using rule 30 (expression -> expression MINUS expression .)
+    NAME            reduce using rule 30 (expression -> expression MINUS expression .)
+    PRINT           reduce using rule 30 (expression -> expression MINUS expression .)
+    RETURN          reduce using rule 30 (expression -> expression MINUS expression .)
+    $end            reduce using rule 30 (expression -> expression MINUS expression .)
+    END             reduce using rule 30 (expression -> expression MINUS expression .)
+    ELSE            reduce using rule 30 (expression -> expression MINUS expression .)
+    ELSEIF          reduce using rule 30 (expression -> expression MINUS expression .)
+    COMMA           reduce using rule 30 (expression -> expression MINUS expression .)
+    RPAREN          reduce using rule 30 (expression -> expression MINUS expression .)
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+
+  ! TIMES           [ reduce using rule 30 (expression -> expression MINUS expression .) ]
+  ! DIVIDE          [ reduce using rule 30 (expression -> expression MINUS expression .) ]
+  ! PLUS            [ shift and go to state 38 ]
+  ! MINUS           [ shift and go to state 39 ]
+  ! EQUALS          [ shift and go to state 42 ]
+  ! LTEQUALS        [ shift and go to state 43 ]
+  ! GTEQUALS        [ shift and go to state 44 ]
+  ! LT              [ shift and go to state 45 ]
+  ! GT              [ shift and go to state 46 ]
+  ! AND             [ shift and go to state 47 ]
+  ! OR              [ shift and go to state 48 ]
+
+
+state 62
+
+    (31) expression -> expression TIMES expression .
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    DO              reduce using rule 31 (expression -> expression TIMES expression .)
+    PLUS            reduce using rule 31 (expression -> expression TIMES expression .)
+    MINUS           reduce using rule 31 (expression -> expression TIMES expression .)
+    TIMES           reduce using rule 31 (expression -> expression TIMES expression .)
+    DIVIDE          reduce using rule 31 (expression -> expression TIMES expression .)
+    EQUALS          reduce using rule 31 (expression -> expression TIMES expression .)
+    LTEQUALS        reduce using rule 31 (expression -> expression TIMES expression .)
+    GTEQUALS        reduce using rule 31 (expression -> expression TIMES expression .)
+    LT              reduce using rule 31 (expression -> expression TIMES expression .)
+    GT              reduce using rule 31 (expression -> expression TIMES expression .)
+    AND             reduce using rule 31 (expression -> expression TIMES expression .)
+    OR              reduce using rule 31 (expression -> expression TIMES expression .)
+    THEN            reduce using rule 31 (expression -> expression TIMES expression .)
+    FUNCTION        reduce using rule 31 (expression -> expression TIMES expression .)
+    WHILE           reduce using rule 31 (expression -> expression TIMES expression .)
+    FOR             reduce using rule 31 (expression -> expression TIMES expression .)
+    IF              reduce using rule 31 (expression -> expression TIMES expression .)
+    LOCAL           reduce using rule 31 (expression -> expression TIMES expression .)
+    NAME            reduce using rule 31 (expression -> expression TIMES expression .)
+    PRINT           reduce using rule 31 (expression -> expression TIMES expression .)
+    RETURN          reduce using rule 31 (expression -> expression TIMES expression .)
+    $end            reduce using rule 31 (expression -> expression TIMES expression .)
+    END             reduce using rule 31 (expression -> expression TIMES expression .)
+    ELSE            reduce using rule 31 (expression -> expression TIMES expression .)
+    ELSEIF          reduce using rule 31 (expression -> expression TIMES expression .)
+    COMMA           reduce using rule 31 (expression -> expression TIMES expression .)
+    RPAREN          reduce using rule 31 (expression -> expression TIMES expression .)
+
+  ! PLUS            [ shift and go to state 38 ]
+  ! MINUS           [ shift and go to state 39 ]
+  ! TIMES           [ shift and go to state 40 ]
+  ! DIVIDE          [ shift and go to state 41 ]
+  ! EQUALS          [ shift and go to state 42 ]
+  ! LTEQUALS        [ shift and go to state 43 ]
+  ! GTEQUALS        [ shift and go to state 44 ]
+  ! LT              [ shift and go to state 45 ]
+  ! GT              [ shift and go to state 46 ]
+  ! AND             [ shift and go to state 47 ]
+  ! OR              [ shift and go to state 48 ]
+
+
+state 63
+
+    (32) expression -> expression DIVIDE expression .
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    DO              reduce using rule 32 (expression -> expression DIVIDE expression .)
+    PLUS            reduce using rule 32 (expression -> expression DIVIDE expression .)
+    MINUS           reduce using rule 32 (expression -> expression DIVIDE expression .)
+    TIMES           reduce using rule 32 (expression -> expression DIVIDE expression .)
+    DIVIDE          reduce using rule 32 (expression -> expression DIVIDE expression .)
+    EQUALS          reduce using rule 32 (expression -> expression DIVIDE expression .)
+    LTEQUALS        reduce using rule 32 (expression -> expression DIVIDE expression .)
+    GTEQUALS        reduce using rule 32 (expression -> expression DIVIDE expression .)
+    LT              reduce using rule 32 (expression -> expression DIVIDE expression .)
+    GT              reduce using rule 32 (expression -> expression DIVIDE expression .)
+    AND             reduce using rule 32 (expression -> expression DIVIDE expression .)
+    OR              reduce using rule 32 (expression -> expression DIVIDE expression .)
+    THEN            reduce using rule 32 (expression -> expression DIVIDE expression .)
+    FUNCTION        reduce using rule 32 (expression -> expression DIVIDE expression .)
+    WHILE           reduce using rule 32 (expression -> expression DIVIDE expression .)
+    FOR             reduce using rule 32 (expression -> expression DIVIDE expression .)
+    IF              reduce using rule 32 (expression -> expression DIVIDE expression .)
+    LOCAL           reduce using rule 32 (expression -> expression DIVIDE expression .)
+    NAME            reduce using rule 32 (expression -> expression DIVIDE expression .)
+    PRINT           reduce using rule 32 (expression -> expression DIVIDE expression .)
+    RETURN          reduce using rule 32 (expression -> expression DIVIDE expression .)
+    $end            reduce using rule 32 (expression -> expression DIVIDE expression .)
+    END             reduce using rule 32 (expression -> expression DIVIDE expression .)
+    ELSE            reduce using rule 32 (expression -> expression DIVIDE expression .)
+    ELSEIF          reduce using rule 32 (expression -> expression DIVIDE expression .)
+    COMMA           reduce using rule 32 (expression -> expression DIVIDE expression .)
+    RPAREN          reduce using rule 32 (expression -> expression DIVIDE expression .)
+
+  ! PLUS            [ shift and go to state 38 ]
+  ! MINUS           [ shift and go to state 39 ]
+  ! TIMES           [ shift and go to state 40 ]
+  ! DIVIDE          [ shift and go to state 41 ]
+  ! EQUALS          [ shift and go to state 42 ]
+  ! LTEQUALS        [ shift and go to state 43 ]
+  ! GTEQUALS        [ shift and go to state 44 ]
+  ! LT              [ shift and go to state 45 ]
+  ! GT              [ shift and go to state 46 ]
+  ! AND             [ shift and go to state 47 ]
+  ! OR              [ shift and go to state 48 ]
+
+
+state 64
+
+    (33) expression -> expression EQUALS expression .
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    DO              reduce using rule 33 (expression -> expression EQUALS expression .)
+    EQUALS          reduce using rule 33 (expression -> expression EQUALS expression .)
+    LTEQUALS        reduce using rule 33 (expression -> expression EQUALS expression .)
+    GTEQUALS        reduce using rule 33 (expression -> expression EQUALS expression .)
+    LT              reduce using rule 33 (expression -> expression EQUALS expression .)
+    GT              reduce using rule 33 (expression -> expression EQUALS expression .)
+    AND             reduce using rule 33 (expression -> expression EQUALS expression .)
+    OR              reduce using rule 33 (expression -> expression EQUALS expression .)
+    THEN            reduce using rule 33 (expression -> expression EQUALS expression .)
+    FUNCTION        reduce using rule 33 (expression -> expression EQUALS expression .)
+    WHILE           reduce using rule 33 (expression -> expression EQUALS expression .)
+    FOR             reduce using rule 33 (expression -> expression EQUALS expression .)
+    IF              reduce using rule 33 (expression -> expression EQUALS expression .)
+    LOCAL           reduce using rule 33 (expression -> expression EQUALS expression .)
+    NAME            reduce using rule 33 (expression -> expression EQUALS expression .)
+    PRINT           reduce using rule 33 (expression -> expression EQUALS expression .)
+    RETURN          reduce using rule 33 (expression -> expression EQUALS expression .)
+    $end            reduce using rule 33 (expression -> expression EQUALS expression .)
+    END             reduce using rule 33 (expression -> expression EQUALS expression .)
+    ELSE            reduce using rule 33 (expression -> expression EQUALS expression .)
+    ELSEIF          reduce using rule 33 (expression -> expression EQUALS expression .)
+    COMMA           reduce using rule 33 (expression -> expression EQUALS expression .)
+    RPAREN          reduce using rule 33 (expression -> expression EQUALS expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+
+  ! PLUS            [ reduce using rule 33 (expression -> expression EQUALS expression .) ]
+  ! MINUS           [ reduce using rule 33 (expression -> expression EQUALS expression .) ]
+  ! TIMES           [ reduce using rule 33 (expression -> expression EQUALS expression .) ]
+  ! DIVIDE          [ reduce using rule 33 (expression -> expression EQUALS expression .) ]
+  ! EQUALS          [ shift and go to state 42 ]
+  ! LTEQUALS        [ shift and go to state 43 ]
+  ! GTEQUALS        [ shift and go to state 44 ]
+  ! LT              [ shift and go to state 45 ]
+  ! GT              [ shift and go to state 46 ]
+  ! AND             [ shift and go to state 47 ]
+  ! OR              [ shift and go to state 48 ]
+
+
+state 65
+
+    (34) expression -> expression LTEQUALS expression .
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    DO              reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    EQUALS          reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    LTEQUALS        reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    GTEQUALS        reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    LT              reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    GT              reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    AND             reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    OR              reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    THEN            reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    FUNCTION        reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    WHILE           reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    FOR             reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    IF              reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    LOCAL           reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    NAME            reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    PRINT           reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    RETURN          reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    $end            reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    END             reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    ELSE            reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    ELSEIF          reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    COMMA           reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    RPAREN          reduce using rule 34 (expression -> expression LTEQUALS expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+
+  ! PLUS            [ reduce using rule 34 (expression -> expression LTEQUALS expression .) ]
+  ! MINUS           [ reduce using rule 34 (expression -> expression LTEQUALS expression .) ]
+  ! TIMES           [ reduce using rule 34 (expression -> expression LTEQUALS expression .) ]
+  ! DIVIDE          [ reduce using rule 34 (expression -> expression LTEQUALS expression .) ]
+  ! EQUALS          [ shift and go to state 42 ]
+  ! LTEQUALS        [ shift and go to state 43 ]
+  ! GTEQUALS        [ shift and go to state 44 ]
+  ! LT              [ shift and go to state 45 ]
+  ! GT              [ shift and go to state 46 ]
+  ! AND             [ shift and go to state 47 ]
+  ! OR              [ shift and go to state 48 ]
+
+
+state 66
+
+    (35) expression -> expression GTEQUALS expression .
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    DO              reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    EQUALS          reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    LTEQUALS        reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    GTEQUALS        reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    LT              reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    GT              reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    AND             reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    OR              reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    THEN            reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    FUNCTION        reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    WHILE           reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    FOR             reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    IF              reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    LOCAL           reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    NAME            reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    PRINT           reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    RETURN          reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    $end            reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    END             reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    ELSE            reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    ELSEIF          reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    COMMA           reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    RPAREN          reduce using rule 35 (expression -> expression GTEQUALS expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+
+  ! PLUS            [ reduce using rule 35 (expression -> expression GTEQUALS expression .) ]
+  ! MINUS           [ reduce using rule 35 (expression -> expression GTEQUALS expression .) ]
+  ! TIMES           [ reduce using rule 35 (expression -> expression GTEQUALS expression .) ]
+  ! DIVIDE          [ reduce using rule 35 (expression -> expression GTEQUALS expression .) ]
+  ! EQUALS          [ shift and go to state 42 ]
+  ! LTEQUALS        [ shift and go to state 43 ]
+  ! GTEQUALS        [ shift and go to state 44 ]
+  ! LT              [ shift and go to state 45 ]
+  ! GT              [ shift and go to state 46 ]
+  ! AND             [ shift and go to state 47 ]
+  ! OR              [ shift and go to state 48 ]
+
+
+state 67
+
+    (36) expression -> expression LT expression .
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    DO              reduce using rule 36 (expression -> expression LT expression .)
+    EQUALS          reduce using rule 36 (expression -> expression LT expression .)
+    LTEQUALS        reduce using rule 36 (expression -> expression LT expression .)
+    GTEQUALS        reduce using rule 36 (expression -> expression LT expression .)
+    LT              reduce using rule 36 (expression -> expression LT expression .)
+    GT              reduce using rule 36 (expression -> expression LT expression .)
+    AND             reduce using rule 36 (expression -> expression LT expression .)
+    OR              reduce using rule 36 (expression -> expression LT expression .)
+    THEN            reduce using rule 36 (expression -> expression LT expression .)
+    FUNCTION        reduce using rule 36 (expression -> expression LT expression .)
+    WHILE           reduce using rule 36 (expression -> expression LT expression .)
+    FOR             reduce using rule 36 (expression -> expression LT expression .)
+    IF              reduce using rule 36 (expression -> expression LT expression .)
+    LOCAL           reduce using rule 36 (expression -> expression LT expression .)
+    NAME            reduce using rule 36 (expression -> expression LT expression .)
+    PRINT           reduce using rule 36 (expression -> expression LT expression .)
+    RETURN          reduce using rule 36 (expression -> expression LT expression .)
+    $end            reduce using rule 36 (expression -> expression LT expression .)
+    END             reduce using rule 36 (expression -> expression LT expression .)
+    ELSE            reduce using rule 36 (expression -> expression LT expression .)
+    ELSEIF          reduce using rule 36 (expression -> expression LT expression .)
+    COMMA           reduce using rule 36 (expression -> expression LT expression .)
+    RPAREN          reduce using rule 36 (expression -> expression LT expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+
+  ! PLUS            [ reduce using rule 36 (expression -> expression LT expression .) ]
+  ! MINUS           [ reduce using rule 36 (expression -> expression LT expression .) ]
+  ! TIMES           [ reduce using rule 36 (expression -> expression LT expression .) ]
+  ! DIVIDE          [ reduce using rule 36 (expression -> expression LT expression .) ]
+  ! EQUALS          [ shift and go to state 42 ]
+  ! LTEQUALS        [ shift and go to state 43 ]
+  ! GTEQUALS        [ shift and go to state 44 ]
+  ! LT              [ shift and go to state 45 ]
+  ! GT              [ shift and go to state 46 ]
+  ! AND             [ shift and go to state 47 ]
+  ! OR              [ shift and go to state 48 ]
+
+
+state 68
+
+    (37) expression -> expression GT expression .
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    DO              reduce using rule 37 (expression -> expression GT expression .)
+    EQUALS          reduce using rule 37 (expression -> expression GT expression .)
+    LTEQUALS        reduce using rule 37 (expression -> expression GT expression .)
+    GTEQUALS        reduce using rule 37 (expression -> expression GT expression .)
+    LT              reduce using rule 37 (expression -> expression GT expression .)
+    GT              reduce using rule 37 (expression -> expression GT expression .)
+    AND             reduce using rule 37 (expression -> expression GT expression .)
+    OR              reduce using rule 37 (expression -> expression GT expression .)
+    THEN            reduce using rule 37 (expression -> expression GT expression .)
+    FUNCTION        reduce using rule 37 (expression -> expression GT expression .)
+    WHILE           reduce using rule 37 (expression -> expression GT expression .)
+    FOR             reduce using rule 37 (expression -> expression GT expression .)
+    IF              reduce using rule 37 (expression -> expression GT expression .)
+    LOCAL           reduce using rule 37 (expression -> expression GT expression .)
+    NAME            reduce using rule 37 (expression -> expression GT expression .)
+    PRINT           reduce using rule 37 (expression -> expression GT expression .)
+    RETURN          reduce using rule 37 (expression -> expression GT expression .)
+    $end            reduce using rule 37 (expression -> expression GT expression .)
+    END             reduce using rule 37 (expression -> expression GT expression .)
+    ELSE            reduce using rule 37 (expression -> expression GT expression .)
+    ELSEIF          reduce using rule 37 (expression -> expression GT expression .)
+    COMMA           reduce using rule 37 (expression -> expression GT expression .)
+    RPAREN          reduce using rule 37 (expression -> expression GT expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+
+  ! PLUS            [ reduce using rule 37 (expression -> expression GT expression .) ]
+  ! MINUS           [ reduce using rule 37 (expression -> expression GT expression .) ]
+  ! TIMES           [ reduce using rule 37 (expression -> expression GT expression .) ]
+  ! DIVIDE          [ reduce using rule 37 (expression -> expression GT expression .) ]
+  ! EQUALS          [ shift and go to state 42 ]
+  ! LTEQUALS        [ shift and go to state 43 ]
+  ! GTEQUALS        [ shift and go to state 44 ]
+  ! LT              [ shift and go to state 45 ]
+  ! GT              [ shift and go to state 46 ]
+  ! AND             [ shift and go to state 47 ]
+  ! OR              [ shift and go to state 48 ]
+
+
+state 69
+
+    (38) expression -> expression AND expression .
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    DO              reduce using rule 38 (expression -> expression AND expression .)
+    AND             reduce using rule 38 (expression -> expression AND expression .)
+    OR              reduce using rule 38 (expression -> expression AND expression .)
+    THEN            reduce using rule 38 (expression -> expression AND expression .)
+    FUNCTION        reduce using rule 38 (expression -> expression AND expression .)
+    WHILE           reduce using rule 38 (expression -> expression AND expression .)
+    FOR             reduce using rule 38 (expression -> expression AND expression .)
+    IF              reduce using rule 38 (expression -> expression AND expression .)
+    LOCAL           reduce using rule 38 (expression -> expression AND expression .)
+    NAME            reduce using rule 38 (expression -> expression AND expression .)
+    PRINT           reduce using rule 38 (expression -> expression AND expression .)
+    RETURN          reduce using rule 38 (expression -> expression AND expression .)
+    $end            reduce using rule 38 (expression -> expression AND expression .)
+    END             reduce using rule 38 (expression -> expression AND expression .)
+    ELSE            reduce using rule 38 (expression -> expression AND expression .)
+    ELSEIF          reduce using rule 38 (expression -> expression AND expression .)
+    COMMA           reduce using rule 38 (expression -> expression AND expression .)
+    RPAREN          reduce using rule 38 (expression -> expression AND expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EQUALS          shift and go to state 42
+    LTEQUALS        shift and go to state 43
+    GTEQUALS        shift and go to state 44
+    LT              shift and go to state 45
+    GT              shift and go to state 46
+
+  ! PLUS            [ reduce using rule 38 (expression -> expression AND expression .) ]
+  ! MINUS           [ reduce using rule 38 (expression -> expression AND expression .) ]
+  ! TIMES           [ reduce using rule 38 (expression -> expression AND expression .) ]
+  ! DIVIDE          [ reduce using rule 38 (expression -> expression AND expression .) ]
+  ! EQUALS          [ reduce using rule 38 (expression -> expression AND expression .) ]
+  ! LTEQUALS        [ reduce using rule 38 (expression -> expression AND expression .) ]
+  ! GTEQUALS        [ reduce using rule 38 (expression -> expression AND expression .) ]
+  ! LT              [ reduce using rule 38 (expression -> expression AND expression .) ]
+  ! GT              [ reduce using rule 38 (expression -> expression AND expression .) ]
+  ! AND             [ shift and go to state 47 ]
+  ! OR              [ shift and go to state 48 ]
+
+
+state 70
+
+    (39) expression -> expression OR expression .
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    DO              reduce using rule 39 (expression -> expression OR expression .)
+    OR              reduce using rule 39 (expression -> expression OR expression .)
+    THEN            reduce using rule 39 (expression -> expression OR expression .)
+    FUNCTION        reduce using rule 39 (expression -> expression OR expression .)
+    WHILE           reduce using rule 39 (expression -> expression OR expression .)
+    FOR             reduce using rule 39 (expression -> expression OR expression .)
+    IF              reduce using rule 39 (expression -> expression OR expression .)
+    LOCAL           reduce using rule 39 (expression -> expression OR expression .)
+    NAME            reduce using rule 39 (expression -> expression OR expression .)
+    PRINT           reduce using rule 39 (expression -> expression OR expression .)
+    RETURN          reduce using rule 39 (expression -> expression OR expression .)
+    $end            reduce using rule 39 (expression -> expression OR expression .)
+    END             reduce using rule 39 (expression -> expression OR expression .)
+    ELSE            reduce using rule 39 (expression -> expression OR expression .)
+    ELSEIF          reduce using rule 39 (expression -> expression OR expression .)
+    COMMA           reduce using rule 39 (expression -> expression OR expression .)
+    RPAREN          reduce using rule 39 (expression -> expression OR expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EQUALS          shift and go to state 42
+    LTEQUALS        shift and go to state 43
+    GTEQUALS        shift and go to state 44
+    LT              shift and go to state 45
+    GT              shift and go to state 46
+    AND             shift and go to state 47
+
+  ! PLUS            [ reduce using rule 39 (expression -> expression OR expression .) ]
+  ! MINUS           [ reduce using rule 39 (expression -> expression OR expression .) ]
+  ! TIMES           [ reduce using rule 39 (expression -> expression OR expression .) ]
+  ! DIVIDE          [ reduce using rule 39 (expression -> expression OR expression .) ]
+  ! EQUALS          [ reduce using rule 39 (expression -> expression OR expression .) ]
+  ! LTEQUALS        [ reduce using rule 39 (expression -> expression OR expression .) ]
+  ! GTEQUALS        [ reduce using rule 39 (expression -> expression OR expression .) ]
+  ! LT              [ reduce using rule 39 (expression -> expression OR expression .) ]
+  ! GT              [ reduce using rule 39 (expression -> expression OR expression .) ]
+  ! AND             [ reduce using rule 39 (expression -> expression OR expression .) ]
+  ! OR              [ shift and go to state 48 ]
+
+
+state 71
+
+    (7) statement -> FOR NAME ATRIB expression . COMMA expression DO statements END
+    (8) statement -> FOR NAME ATRIB expression . COMMA expression COMMA expression DO statements END
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    COMMA           shift and go to state 79
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EQUALS          shift and go to state 42
+    LTEQUALS        shift and go to state 43
+    GTEQUALS        shift and go to state 44
+    LT              shift and go to state 45
+    GT              shift and go to state 46
+    AND             shift and go to state 47
+    OR              shift and go to state 48
+
+
+state 72
+
+    (9) statement -> IF expression THEN statements . END
+    (10) statement -> IF expression THEN statements . ELSE statements END
+    (11) statement -> IF expression THEN statements . elseif_list ELSE statements END
+    (12) statement -> IF expression THEN statements . elseif_list END
+    (13) elseif_list -> . elseif_list ELSEIF expression THEN statements
+    (14) elseif_list -> . empty
+    (15) empty -> .
+
+  ! shift/reduce conflict for ELSE resolved as shift
+  ! shift/reduce conflict for END resolved as shift
+    END             shift and go to state 80
+    ELSE            shift and go to state 81
+    ELSEIF          reduce using rule 15 (empty -> .)
+
+  ! ELSE            [ reduce using rule 15 (empty -> .) ]
+  ! END             [ reduce using rule 15 (empty -> .) ]
+
+    elseif_list                    shift and go to state 82
+    empty                          shift and go to state 83
+
+state 73
+
+    (16) statement -> LOCAL NAME ATRIB expression .
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    FUNCTION        reduce using rule 16 (statement -> LOCAL NAME ATRIB expression .)
+    WHILE           reduce using rule 16 (statement -> LOCAL NAME ATRIB expression .)
+    FOR             reduce using rule 16 (statement -> LOCAL NAME ATRIB expression .)
+    IF              reduce using rule 16 (statement -> LOCAL NAME ATRIB expression .)
+    LOCAL           reduce using rule 16 (statement -> LOCAL NAME ATRIB expression .)
+    NAME            reduce using rule 16 (statement -> LOCAL NAME ATRIB expression .)
+    PRINT           reduce using rule 16 (statement -> LOCAL NAME ATRIB expression .)
+    RETURN          reduce using rule 16 (statement -> LOCAL NAME ATRIB expression .)
+    $end            reduce using rule 16 (statement -> LOCAL NAME ATRIB expression .)
+    END             reduce using rule 16 (statement -> LOCAL NAME ATRIB expression .)
+    ELSE            reduce using rule 16 (statement -> LOCAL NAME ATRIB expression .)
+    ELSEIF          reduce using rule 16 (statement -> LOCAL NAME ATRIB expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EQUALS          shift and go to state 42
+    LTEQUALS        shift and go to state 43
+    GTEQUALS        shift and go to state 44
+    LT              shift and go to state 45
+    GT              shift and go to state 46
+    AND             shift and go to state 47
+    OR              shift and go to state 48
+
+
+state 74
+
+    (18) statement -> PRINT LPAREN expression RPAREN .
+
+    FUNCTION        reduce using rule 18 (statement -> PRINT LPAREN expression RPAREN .)
+    WHILE           reduce using rule 18 (statement -> PRINT LPAREN expression RPAREN .)
+    FOR             reduce using rule 18 (statement -> PRINT LPAREN expression RPAREN .)
+    IF              reduce using rule 18 (statement -> PRINT LPAREN expression RPAREN .)
+    LOCAL           reduce using rule 18 (statement -> PRINT LPAREN expression RPAREN .)
+    NAME            reduce using rule 18 (statement -> PRINT LPAREN expression RPAREN .)
+    PRINT           reduce using rule 18 (statement -> PRINT LPAREN expression RPAREN .)
+    RETURN          reduce using rule 18 (statement -> PRINT LPAREN expression RPAREN .)
+    $end            reduce using rule 18 (statement -> PRINT LPAREN expression RPAREN .)
+    END             reduce using rule 18 (statement -> PRINT LPAREN expression RPAREN .)
+    ELSE            reduce using rule 18 (statement -> PRINT LPAREN expression RPAREN .)
+    ELSEIF          reduce using rule 18 (statement -> PRINT LPAREN expression RPAREN .)
+
+
+state 75
+
+    (21) parameters -> NAME COMMA . parameters
+    (21) parameters -> . NAME COMMA parameters
+    (22) parameters -> . NAME
+    (23) parameters -> .
+
+    NAME            shift and go to state 55
+    RPAREN          reduce using rule 23 (parameters -> .)
+
+    parameters                     shift and go to state 84
+
+state 76
+
+    (5) statement -> FUNCTION NAME LPAREN parameters RPAREN . statements END
+    (3) statements -> . statement statements
+    (4) statements -> . statement
+    (5) statement -> . FUNCTION NAME LPAREN parameters RPAREN statements END
+    (6) statement -> . WHILE expression DO statements END
+    (7) statement -> . FOR NAME ATRIB expression COMMA expression DO statements END
+    (8) statement -> . FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END
+    (9) statement -> . IF expression THEN statements END
+    (10) statement -> . IF expression THEN statements ELSE statements END
+    (11) statement -> . IF expression THEN statements elseif_list ELSE statements END
+    (12) statement -> . IF expression THEN statements elseif_list END
+    (16) statement -> . LOCAL NAME ATRIB expression
+    (17) statement -> . NAME ATRIB expression
+    (18) statement -> . PRINT LPAREN expression RPAREN
+    (19) statement -> . RETURN expression
+    (20) statement -> . function_call
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    FUNCTION        shift and go to state 5
+    WHILE           shift and go to state 7
+    FOR             shift and go to state 8
+    IF              shift and go to state 9
+    LOCAL           shift and go to state 10
+    NAME            shift and go to state 6
+    PRINT           shift and go to state 11
+    RETURN          shift and go to state 12
+
+    statements                     shift and go to state 85
+    statement                      shift and go to state 4
+    function_call                  shift and go to state 13
+
+state 77
+
+    (24) arguments -> expression COMMA arguments .
+
+    RPAREN          reduce using rule 24 (arguments -> expression COMMA arguments .)
+
+
+state 78
+
+    (6) statement -> WHILE expression DO statements END .
+
+    FUNCTION        reduce using rule 6 (statement -> WHILE expression DO statements END .)
+    WHILE           reduce using rule 6 (statement -> WHILE expression DO statements END .)
+    FOR             reduce using rule 6 (statement -> WHILE expression DO statements END .)
+    IF              reduce using rule 6 (statement -> WHILE expression DO statements END .)
+    LOCAL           reduce using rule 6 (statement -> WHILE expression DO statements END .)
+    NAME            reduce using rule 6 (statement -> WHILE expression DO statements END .)
+    PRINT           reduce using rule 6 (statement -> WHILE expression DO statements END .)
+    RETURN          reduce using rule 6 (statement -> WHILE expression DO statements END .)
+    $end            reduce using rule 6 (statement -> WHILE expression DO statements END .)
+    END             reduce using rule 6 (statement -> WHILE expression DO statements END .)
+    ELSE            reduce using rule 6 (statement -> WHILE expression DO statements END .)
+    ELSEIF          reduce using rule 6 (statement -> WHILE expression DO statements END .)
+
+
+state 79
+
+    (7) statement -> FOR NAME ATRIB expression COMMA . expression DO statements END
+    (8) statement -> FOR NAME ATRIB expression COMMA . expression COMMA expression DO statements END
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 86
+    function_call                  shift and go to state 21
+
+state 80
+
+    (9) statement -> IF expression THEN statements END .
+
+    FUNCTION        reduce using rule 9 (statement -> IF expression THEN statements END .)
+    WHILE           reduce using rule 9 (statement -> IF expression THEN statements END .)
+    FOR             reduce using rule 9 (statement -> IF expression THEN statements END .)
+    IF              reduce using rule 9 (statement -> IF expression THEN statements END .)
+    LOCAL           reduce using rule 9 (statement -> IF expression THEN statements END .)
+    NAME            reduce using rule 9 (statement -> IF expression THEN statements END .)
+    PRINT           reduce using rule 9 (statement -> IF expression THEN statements END .)
+    RETURN          reduce using rule 9 (statement -> IF expression THEN statements END .)
+    $end            reduce using rule 9 (statement -> IF expression THEN statements END .)
+    END             reduce using rule 9 (statement -> IF expression THEN statements END .)
+    ELSE            reduce using rule 9 (statement -> IF expression THEN statements END .)
+    ELSEIF          reduce using rule 9 (statement -> IF expression THEN statements END .)
+
+
+state 81
+
+    (10) statement -> IF expression THEN statements ELSE . statements END
+    (3) statements -> . statement statements
+    (4) statements -> . statement
+    (5) statement -> . FUNCTION NAME LPAREN parameters RPAREN statements END
+    (6) statement -> . WHILE expression DO statements END
+    (7) statement -> . FOR NAME ATRIB expression COMMA expression DO statements END
+    (8) statement -> . FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END
+    (9) statement -> . IF expression THEN statements END
+    (10) statement -> . IF expression THEN statements ELSE statements END
+    (11) statement -> . IF expression THEN statements elseif_list ELSE statements END
+    (12) statement -> . IF expression THEN statements elseif_list END
+    (16) statement -> . LOCAL NAME ATRIB expression
+    (17) statement -> . NAME ATRIB expression
+    (18) statement -> . PRINT LPAREN expression RPAREN
+    (19) statement -> . RETURN expression
+    (20) statement -> . function_call
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    FUNCTION        shift and go to state 5
+    WHILE           shift and go to state 7
+    FOR             shift and go to state 8
+    IF              shift and go to state 9
+    LOCAL           shift and go to state 10
+    NAME            shift and go to state 6
+    PRINT           shift and go to state 11
+    RETURN          shift and go to state 12
+
+    statements                     shift and go to state 87
+    statement                      shift and go to state 4
+    function_call                  shift and go to state 13
+
+state 82
+
+    (11) statement -> IF expression THEN statements elseif_list . ELSE statements END
+    (12) statement -> IF expression THEN statements elseif_list . END
+    (13) elseif_list -> elseif_list . ELSEIF expression THEN statements
+
+    ELSE            shift and go to state 88
+    END             shift and go to state 89
+    ELSEIF          shift and go to state 90
+
+
+state 83
+
+    (14) elseif_list -> empty .
+
+    ELSE            reduce using rule 14 (elseif_list -> empty .)
+    END             reduce using rule 14 (elseif_list -> empty .)
+    ELSEIF          reduce using rule 14 (elseif_list -> empty .)
+
+
+state 84
+
+    (21) parameters -> NAME COMMA parameters .
+
+    RPAREN          reduce using rule 21 (parameters -> NAME COMMA parameters .)
+
+
+state 85
+
+    (5) statement -> FUNCTION NAME LPAREN parameters RPAREN statements . END
+
+    END             shift and go to state 91
+
+
+state 86
+
+    (7) statement -> FOR NAME ATRIB expression COMMA expression . DO statements END
+    (8) statement -> FOR NAME ATRIB expression COMMA expression . COMMA expression DO statements END
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    DO              shift and go to state 93
+    COMMA           shift and go to state 92
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EQUALS          shift and go to state 42
+    LTEQUALS        shift and go to state 43
+    GTEQUALS        shift and go to state 44
+    LT              shift and go to state 45
+    GT              shift and go to state 46
+    AND             shift and go to state 47
+    OR              shift and go to state 48
+
+
+state 87
+
+    (10) statement -> IF expression THEN statements ELSE statements . END
+
+    END             shift and go to state 94
+
+
+state 88
+
+    (11) statement -> IF expression THEN statements elseif_list ELSE . statements END
+    (3) statements -> . statement statements
+    (4) statements -> . statement
+    (5) statement -> . FUNCTION NAME LPAREN parameters RPAREN statements END
+    (6) statement -> . WHILE expression DO statements END
+    (7) statement -> . FOR NAME ATRIB expression COMMA expression DO statements END
+    (8) statement -> . FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END
+    (9) statement -> . IF expression THEN statements END
+    (10) statement -> . IF expression THEN statements ELSE statements END
+    (11) statement -> . IF expression THEN statements elseif_list ELSE statements END
+    (12) statement -> . IF expression THEN statements elseif_list END
+    (16) statement -> . LOCAL NAME ATRIB expression
+    (17) statement -> . NAME ATRIB expression
+    (18) statement -> . PRINT LPAREN expression RPAREN
+    (19) statement -> . RETURN expression
+    (20) statement -> . function_call
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    FUNCTION        shift and go to state 5
+    WHILE           shift and go to state 7
+    FOR             shift and go to state 8
+    IF              shift and go to state 9
+    LOCAL           shift and go to state 10
+    NAME            shift and go to state 6
+    PRINT           shift and go to state 11
+    RETURN          shift and go to state 12
+
+    statements                     shift and go to state 95
+    statement                      shift and go to state 4
+    function_call                  shift and go to state 13
+
+state 89
+
+    (12) statement -> IF expression THEN statements elseif_list END .
+
+    FUNCTION        reduce using rule 12 (statement -> IF expression THEN statements elseif_list END .)
+    WHILE           reduce using rule 12 (statement -> IF expression THEN statements elseif_list END .)
+    FOR             reduce using rule 12 (statement -> IF expression THEN statements elseif_list END .)
+    IF              reduce using rule 12 (statement -> IF expression THEN statements elseif_list END .)
+    LOCAL           reduce using rule 12 (statement -> IF expression THEN statements elseif_list END .)
+    NAME            reduce using rule 12 (statement -> IF expression THEN statements elseif_list END .)
+    PRINT           reduce using rule 12 (statement -> IF expression THEN statements elseif_list END .)
+    RETURN          reduce using rule 12 (statement -> IF expression THEN statements elseif_list END .)
+    $end            reduce using rule 12 (statement -> IF expression THEN statements elseif_list END .)
+    END             reduce using rule 12 (statement -> IF expression THEN statements elseif_list END .)
+    ELSE            reduce using rule 12 (statement -> IF expression THEN statements elseif_list END .)
+    ELSEIF          reduce using rule 12 (statement -> IF expression THEN statements elseif_list END .)
+
+
+state 90
+
+    (13) elseif_list -> elseif_list ELSEIF . expression THEN statements
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 96
+    function_call                  shift and go to state 21
+
+state 91
+
+    (5) statement -> FUNCTION NAME LPAREN parameters RPAREN statements END .
+
+    FUNCTION        reduce using rule 5 (statement -> FUNCTION NAME LPAREN parameters RPAREN statements END .)
+    WHILE           reduce using rule 5 (statement -> FUNCTION NAME LPAREN parameters RPAREN statements END .)
+    FOR             reduce using rule 5 (statement -> FUNCTION NAME LPAREN parameters RPAREN statements END .)
+    IF              reduce using rule 5 (statement -> FUNCTION NAME LPAREN parameters RPAREN statements END .)
+    LOCAL           reduce using rule 5 (statement -> FUNCTION NAME LPAREN parameters RPAREN statements END .)
+    NAME            reduce using rule 5 (statement -> FUNCTION NAME LPAREN parameters RPAREN statements END .)
+    PRINT           reduce using rule 5 (statement -> FUNCTION NAME LPAREN parameters RPAREN statements END .)
+    RETURN          reduce using rule 5 (statement -> FUNCTION NAME LPAREN parameters RPAREN statements END .)
+    $end            reduce using rule 5 (statement -> FUNCTION NAME LPAREN parameters RPAREN statements END .)
+    END             reduce using rule 5 (statement -> FUNCTION NAME LPAREN parameters RPAREN statements END .)
+    ELSE            reduce using rule 5 (statement -> FUNCTION NAME LPAREN parameters RPAREN statements END .)
+    ELSEIF          reduce using rule 5 (statement -> FUNCTION NAME LPAREN parameters RPAREN statements END .)
+
+
+state 92
+
+    (8) statement -> FOR NAME ATRIB expression COMMA expression COMMA . expression DO statements END
+    (27) expression -> . MINUS expression
+    (28) expression -> . NOT expression
+    (29) expression -> . expression PLUS expression
+    (30) expression -> . expression MINUS expression
+    (31) expression -> . expression TIMES expression
+    (32) expression -> . expression DIVIDE expression
+    (33) expression -> . expression EQUALS expression
+    (34) expression -> . expression LTEQUALS expression
+    (35) expression -> . expression GTEQUALS expression
+    (36) expression -> . expression LT expression
+    (37) expression -> . expression GT expression
+    (38) expression -> . expression AND expression
+    (39) expression -> . expression OR expression
+    (40) expression -> . function_call
+    (42) expression -> . NUMBER
+    (43) expression -> . STRING
+    (44) expression -> . NAME
+    (45) expression -> . TRUE
+    (46) expression -> . FALSE
+    (47) expression -> . NIL
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    MINUS           shift and go to state 19
+    NOT             shift and go to state 20
+    NUMBER          shift and go to state 22
+    STRING          shift and go to state 23
+    NAME            shift and go to state 24
+    TRUE            shift and go to state 25
+    FALSE           shift and go to state 26
+    NIL             shift and go to state 27
+
+    expression                     shift and go to state 97
+    function_call                  shift and go to state 21
+
+state 93
+
+    (7) statement -> FOR NAME ATRIB expression COMMA expression DO . statements END
+    (3) statements -> . statement statements
+    (4) statements -> . statement
+    (5) statement -> . FUNCTION NAME LPAREN parameters RPAREN statements END
+    (6) statement -> . WHILE expression DO statements END
+    (7) statement -> . FOR NAME ATRIB expression COMMA expression DO statements END
+    (8) statement -> . FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END
+    (9) statement -> . IF expression THEN statements END
+    (10) statement -> . IF expression THEN statements ELSE statements END
+    (11) statement -> . IF expression THEN statements elseif_list ELSE statements END
+    (12) statement -> . IF expression THEN statements elseif_list END
+    (16) statement -> . LOCAL NAME ATRIB expression
+    (17) statement -> . NAME ATRIB expression
+    (18) statement -> . PRINT LPAREN expression RPAREN
+    (19) statement -> . RETURN expression
+    (20) statement -> . function_call
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    FUNCTION        shift and go to state 5
+    WHILE           shift and go to state 7
+    FOR             shift and go to state 8
+    IF              shift and go to state 9
+    LOCAL           shift and go to state 10
+    NAME            shift and go to state 6
+    PRINT           shift and go to state 11
+    RETURN          shift and go to state 12
+
+    statements                     shift and go to state 98
+    statement                      shift and go to state 4
+    function_call                  shift and go to state 13
+
+state 94
+
+    (10) statement -> IF expression THEN statements ELSE statements END .
+
+    FUNCTION        reduce using rule 10 (statement -> IF expression THEN statements ELSE statements END .)
+    WHILE           reduce using rule 10 (statement -> IF expression THEN statements ELSE statements END .)
+    FOR             reduce using rule 10 (statement -> IF expression THEN statements ELSE statements END .)
+    IF              reduce using rule 10 (statement -> IF expression THEN statements ELSE statements END .)
+    LOCAL           reduce using rule 10 (statement -> IF expression THEN statements ELSE statements END .)
+    NAME            reduce using rule 10 (statement -> IF expression THEN statements ELSE statements END .)
+    PRINT           reduce using rule 10 (statement -> IF expression THEN statements ELSE statements END .)
+    RETURN          reduce using rule 10 (statement -> IF expression THEN statements ELSE statements END .)
+    $end            reduce using rule 10 (statement -> IF expression THEN statements ELSE statements END .)
+    END             reduce using rule 10 (statement -> IF expression THEN statements ELSE statements END .)
+    ELSE            reduce using rule 10 (statement -> IF expression THEN statements ELSE statements END .)
+    ELSEIF          reduce using rule 10 (statement -> IF expression THEN statements ELSE statements END .)
+
+
+state 95
+
+    (11) statement -> IF expression THEN statements elseif_list ELSE statements . END
+
+    END             shift and go to state 99
+
+
+state 96
+
+    (13) elseif_list -> elseif_list ELSEIF expression . THEN statements
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    THEN            shift and go to state 100
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EQUALS          shift and go to state 42
+    LTEQUALS        shift and go to state 43
+    GTEQUALS        shift and go to state 44
+    LT              shift and go to state 45
+    GT              shift and go to state 46
+    AND             shift and go to state 47
+    OR              shift and go to state 48
+
+
+state 97
+
+    (8) statement -> FOR NAME ATRIB expression COMMA expression COMMA expression . DO statements END
+    (29) expression -> expression . PLUS expression
+    (30) expression -> expression . MINUS expression
+    (31) expression -> expression . TIMES expression
+    (32) expression -> expression . DIVIDE expression
+    (33) expression -> expression . EQUALS expression
+    (34) expression -> expression . LTEQUALS expression
+    (35) expression -> expression . GTEQUALS expression
+    (36) expression -> expression . LT expression
+    (37) expression -> expression . GT expression
+    (38) expression -> expression . AND expression
+    (39) expression -> expression . OR expression
+
+    DO              shift and go to state 101
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EQUALS          shift and go to state 42
+    LTEQUALS        shift and go to state 43
+    GTEQUALS        shift and go to state 44
+    LT              shift and go to state 45
+    GT              shift and go to state 46
+    AND             shift and go to state 47
+    OR              shift and go to state 48
+
+
+state 98
+
+    (7) statement -> FOR NAME ATRIB expression COMMA expression DO statements . END
+
+    END             shift and go to state 102
+
+
+state 99
+
+    (11) statement -> IF expression THEN statements elseif_list ELSE statements END .
+
+    FUNCTION        reduce using rule 11 (statement -> IF expression THEN statements elseif_list ELSE statements END .)
+    WHILE           reduce using rule 11 (statement -> IF expression THEN statements elseif_list ELSE statements END .)
+    FOR             reduce using rule 11 (statement -> IF expression THEN statements elseif_list ELSE statements END .)
+    IF              reduce using rule 11 (statement -> IF expression THEN statements elseif_list ELSE statements END .)
+    LOCAL           reduce using rule 11 (statement -> IF expression THEN statements elseif_list ELSE statements END .)
+    NAME            reduce using rule 11 (statement -> IF expression THEN statements elseif_list ELSE statements END .)
+    PRINT           reduce using rule 11 (statement -> IF expression THEN statements elseif_list ELSE statements END .)
+    RETURN          reduce using rule 11 (statement -> IF expression THEN statements elseif_list ELSE statements END .)
+    $end            reduce using rule 11 (statement -> IF expression THEN statements elseif_list ELSE statements END .)
+    END             reduce using rule 11 (statement -> IF expression THEN statements elseif_list ELSE statements END .)
+    ELSE            reduce using rule 11 (statement -> IF expression THEN statements elseif_list ELSE statements END .)
+    ELSEIF          reduce using rule 11 (statement -> IF expression THEN statements elseif_list ELSE statements END .)
+
+
+state 100
+
+    (13) elseif_list -> elseif_list ELSEIF expression THEN . statements
+    (3) statements -> . statement statements
+    (4) statements -> . statement
+    (5) statement -> . FUNCTION NAME LPAREN parameters RPAREN statements END
+    (6) statement -> . WHILE expression DO statements END
+    (7) statement -> . FOR NAME ATRIB expression COMMA expression DO statements END
+    (8) statement -> . FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END
+    (9) statement -> . IF expression THEN statements END
+    (10) statement -> . IF expression THEN statements ELSE statements END
+    (11) statement -> . IF expression THEN statements elseif_list ELSE statements END
+    (12) statement -> . IF expression THEN statements elseif_list END
+    (16) statement -> . LOCAL NAME ATRIB expression
+    (17) statement -> . NAME ATRIB expression
+    (18) statement -> . PRINT LPAREN expression RPAREN
+    (19) statement -> . RETURN expression
+    (20) statement -> . function_call
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    FUNCTION        shift and go to state 5
+    WHILE           shift and go to state 7
+    FOR             shift and go to state 8
+    IF              shift and go to state 9
+    LOCAL           shift and go to state 10
+    NAME            shift and go to state 6
+    PRINT           shift and go to state 11
+    RETURN          shift and go to state 12
+
+    statements                     shift and go to state 103
+    statement                      shift and go to state 4
+    function_call                  shift and go to state 13
+
+state 101
+
+    (8) statement -> FOR NAME ATRIB expression COMMA expression COMMA expression DO . statements END
+    (3) statements -> . statement statements
+    (4) statements -> . statement
+    (5) statement -> . FUNCTION NAME LPAREN parameters RPAREN statements END
+    (6) statement -> . WHILE expression DO statements END
+    (7) statement -> . FOR NAME ATRIB expression COMMA expression DO statements END
+    (8) statement -> . FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END
+    (9) statement -> . IF expression THEN statements END
+    (10) statement -> . IF expression THEN statements ELSE statements END
+    (11) statement -> . IF expression THEN statements elseif_list ELSE statements END
+    (12) statement -> . IF expression THEN statements elseif_list END
+    (16) statement -> . LOCAL NAME ATRIB expression
+    (17) statement -> . NAME ATRIB expression
+    (18) statement -> . PRINT LPAREN expression RPAREN
+    (19) statement -> . RETURN expression
+    (20) statement -> . function_call
+    (41) function_call -> . NAME LPAREN arguments RPAREN
+
+    FUNCTION        shift and go to state 5
+    WHILE           shift and go to state 7
+    FOR             shift and go to state 8
+    IF              shift and go to state 9
+    LOCAL           shift and go to state 10
+    NAME            shift and go to state 6
+    PRINT           shift and go to state 11
+    RETURN          shift and go to state 12
+
+    statements                     shift and go to state 104
+    statement                      shift and go to state 4
+    function_call                  shift and go to state 13
+
+state 102
+
+    (7) statement -> FOR NAME ATRIB expression COMMA expression DO statements END .
+
+    FUNCTION        reduce using rule 7 (statement -> FOR NAME ATRIB expression COMMA expression DO statements END .)
+    WHILE           reduce using rule 7 (statement -> FOR NAME ATRIB expression COMMA expression DO statements END .)
+    FOR             reduce using rule 7 (statement -> FOR NAME ATRIB expression COMMA expression DO statements END .)
+    IF              reduce using rule 7 (statement -> FOR NAME ATRIB expression COMMA expression DO statements END .)
+    LOCAL           reduce using rule 7 (statement -> FOR NAME ATRIB expression COMMA expression DO statements END .)
+    NAME            reduce using rule 7 (statement -> FOR NAME ATRIB expression COMMA expression DO statements END .)
+    PRINT           reduce using rule 7 (statement -> FOR NAME ATRIB expression COMMA expression DO statements END .)
+    RETURN          reduce using rule 7 (statement -> FOR NAME ATRIB expression COMMA expression DO statements END .)
+    $end            reduce using rule 7 (statement -> FOR NAME ATRIB expression COMMA expression DO statements END .)
+    END             reduce using rule 7 (statement -> FOR NAME ATRIB expression COMMA expression DO statements END .)
+    ELSE            reduce using rule 7 (statement -> FOR NAME ATRIB expression COMMA expression DO statements END .)
+    ELSEIF          reduce using rule 7 (statement -> FOR NAME ATRIB expression COMMA expression DO statements END .)
+
+
+state 103
+
+    (13) elseif_list -> elseif_list ELSEIF expression THEN statements .
+
+    ELSE            reduce using rule 13 (elseif_list -> elseif_list ELSEIF expression THEN statements .)
+    END             reduce using rule 13 (elseif_list -> elseif_list ELSEIF expression THEN statements .)
+    ELSEIF          reduce using rule 13 (elseif_list -> elseif_list ELSEIF expression THEN statements .)
+
+
+state 104
+
+    (8) statement -> FOR NAME ATRIB expression COMMA expression COMMA expression DO statements . END
+
+    END             shift and go to state 105
+
+
+state 105
+
+    (8) statement -> FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END .
+
+    FUNCTION        reduce using rule 8 (statement -> FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END .)
+    WHILE           reduce using rule 8 (statement -> FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END .)
+    FOR             reduce using rule 8 (statement -> FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END .)
+    IF              reduce using rule 8 (statement -> FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END .)
+    LOCAL           reduce using rule 8 (statement -> FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END .)
+    NAME            reduce using rule 8 (statement -> FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END .)
+    PRINT           reduce using rule 8 (statement -> FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END .)
+    RETURN          reduce using rule 8 (statement -> FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END .)
+    $end            reduce using rule 8 (statement -> FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END .)
+    END             reduce using rule 8 (statement -> FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END .)
+    ELSE            reduce using rule 8 (statement -> FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END .)
+    ELSEIF          reduce using rule 8 (statement -> FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for ELSE in state 72 resolved as shift
+WARNING: shift/reduce conflict for END in state 72 resolved as shift
