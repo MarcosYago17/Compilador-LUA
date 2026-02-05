@@ -17,12 +17,10 @@ reserved = {
     'not': 'NOT',
     'or': 'OR',
     'print': 'PRINT',
-    'repeat': 'REPEAT',
     'return': 'RETURN',
     'then': 'THEN',
     'true': 'TRUE',
     'until': 'UNTIL',
-    'while': 'WHILE',
 }
 
 tokens = [

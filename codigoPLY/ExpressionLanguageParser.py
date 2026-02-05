@@ -6,7 +6,6 @@
 # statement   → local ID = exp                  (Declaração Local)
 #             | ID = exp                        (Atribuição)
 #             | function ID ( params ) block end (Função)
-#             | while exp do block end          (Loop)
 #             | if exp then block end           (If Simples)
 #             | if exp then block else block end(If/Else)
 #             | return exp                      (Retorno)
@@ -51,16 +50,10 @@ def p_statements_single(p):
     '''statements : statement'''
     p[0] = [p[1]]
 
-
 # Declaração de Função: função nomeFunção(parametro1, parametro2) ... end
 def p_statement_funcdecl(p):
     '''statement : FUNCTION NAME LPAREN parameters RPAREN statements END'''
     p[0] = sa.FunctionDecl(p[2], p[4], sa.Block(p[6]))
-
-# Loop While: while (x < 10) do ... end
-def p_statement_while(p):
-    '''statement : WHILE expression DO statements END'''
-    p[0] = sa.While(p[2], sa.Block(p[4])) 
 
 def p_statement_for(p):
     '''statement : FOR NAME ATRIB expression COMMA expression DO statements END
@@ -241,11 +234,6 @@ def main():
     local x = 10
 
     local y = 20
-    
-    while x < y do
-        x = soma(x, 1)
-        print(x)
-    end
 
     for i = 1, 10, 2 do
         print(i)
