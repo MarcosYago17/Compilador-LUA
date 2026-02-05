@@ -79,29 +79,33 @@ def p_statement_for(p):
 
 # If / Else
 def p_statement_if(p):
-    '''statement : IF expression THEN statements END'''
-    p[0] = sa.If(p[2], sa.Block(p[4]), None, None)
+    '''statement : IF expression THEN statements if_tail'''
+    elseif_list, else_body = p[5]
+    p[0] = sa.If(p[2], sa.Block(p[4]), else_body, elseif_list)
 
-def p_statement_if_else(p):
-    '''statement : IF expression THEN statements ELSE statements END'''
-    p[0] = sa.If(p[2], sa.Block(p[4]), sa.Block(p[6]), None)
-    
-def p_statement_if_elseif_else(p):
-    '''statement : IF expression THEN statements elseif_list ELSE statements END'''
-    p[0] = sa.If(p[2], sa.Block(p[4]), sa.Block(p[7]), p[5])
+def p_if_tail_end(p):
+    '''if_tail : END'''
+    p[0] = ([], None)
 
-def p_statement_if_elseif(p):
-    '''statement : IF expression THEN statements elseif_list END'''
-    p[0] = sa.If(p[2], sa.Block(p[4]), None, p[5])
+def p_if_tail_else(p):
+    '''if_tail : ELSE statements END'''
+    p[0] = ([], sa.Block(p[2]))
 
-def p_elseif_list(p):
-    '''elseif_list : elseif_list ELSEIF expression THEN statements
-                   | empty'''  
-    if len(p) == 6:
-        block_node = sa.Block(p[5])
-        p[0] = p[1] + [(p[3], block_node)]
-    else:
-        p[0] = []
+def p_if_tail_elseif(p):
+    '''if_tail : elseif_list END'''
+    p[0] = (p[1], None)
+
+def p_if_tail_elseif_else(p):
+    '''if_tail : elseif_list ELSE statements END'''
+    p[0] = (p[1], sa.Block(p[3]))
+
+def p_elseif_list_single(p):
+    '''elseif_list : ELSEIF expression THEN statements'''
+    p[0] = [(p[2], sa.Block(p[4]))]
+
+def p_elseif_list_multi(p):
+    '''elseif_list : elseif_list ELSEIF expression THEN statements'''
+    p[0] = p[1] + [(p[3], sa.Block(p[5]))]
 
 #-----------------------
 def p_empty(p):
