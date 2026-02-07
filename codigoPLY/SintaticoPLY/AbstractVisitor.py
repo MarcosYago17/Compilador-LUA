@@ -43,10 +43,6 @@ class AbstractVisitor(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def visitWhile(self, while_stmt):
-        pass
-
-    @abstractmethod
     def visitFor(self, for_stmt):
         pass
 

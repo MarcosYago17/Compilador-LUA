@@ -95,15 +95,6 @@ class FunctionDecl(AST):
     def __repr__(self):
         return f"Func {self.name}({self.params}) {self.body}"
 
-class While(AST):
-    def __init__(self, condition, body):
-        self.condition = condition
-        self.body = body
-    def accept(self, visitor):
-        return visitor.visitWhile(self)
-    def __repr__(self):
-        return f"While({self.condition}) {self.body}"
-
 class For(AST):
     def __init__(self, var, start, end, step, body):
         self.var = var
