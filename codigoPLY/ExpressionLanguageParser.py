@@ -53,13 +53,13 @@ def p_statements_single(p):
 # Declaração de Função: função nomeFunção(parametro1, parametro2) ... end
 def p_statement_funcdecl(p):
     '''statement : FUNCTION NAME LPAREN parameters RPAREN statements END'''
-    p[0] = sa.FunctionDecl(p[2], p[4], sa.Block(p[6]))
+    p[0] = sa.FunctionDecl(sa.String(p[2]), p[4], sa.Block(p[6]))
 
 def p_statement_for(p):
     '''statement : FOR NAME ATRIB expression COMMA expression DO statements END
                  | FOR NAME ATRIB expression COMMA expression COMMA expression DO statements END'''
     
-    var_name = p[2]     
+    var_name = sa.String(p[2])     
     start_exp = p[4]
     
     # Caso 1: SEM passo (len = 10) -> for i = 1, 10 do ...
@@ -117,12 +117,12 @@ def p_empty(p):
 # Atribuição: local x = 10
 def p_statement_assign_local(p):
     '''statement : LOCAL NAME ATRIB expression'''
-    p[0] = sa.Assign(p[2], p[4])
+    p[0] = sa.Assign(sa.String(p[2]), p[4])
 
 # Atribuição existente: x = 10
 def p_statement_assign(p):
     '''statement : NAME ATRIB expression'''
-    p[0] = sa.Assign(p[1], p[3])
+    p[0] = sa.Assign(sa.String(p[1]), p[3])
 
 # Print é um caso especial de chamada de função em lua
 def p_statement_print(p):
@@ -144,11 +144,11 @@ def p_statement_call(p):
 # Parâmetros na declaração: (a, b, c)
 def p_parameters_multi(p):
     '''parameters : NAME COMMA parameters'''
-    p[0] = [p[1]] + p[3]
+    p[0] = [sa.String(p[1])] + p[3]
 
 def p_parameters_single(p):
     '''parameters : NAME'''
-    p[0] = [p[1]]
+    p[0] = [sa.String(p[1])]
 
 def p_parameters_empty(p):
     '''parameters : '''
@@ -198,7 +198,7 @@ def p_expression_call(p):
 # Regra auxiliar para chamada de função (usada tanto em expression quanto statement)
 def p_function_call(p):
     '''function_call : NAME LPAREN arguments RPAREN'''
-    p[0] = sa.FunctionCall(p[1], p[3])
+    p[0] = sa.FunctionCall(sa.String(p[1]), p[3])
 
 def p_expression_atom(p):
     '''expression : NUMBER
@@ -299,6 +299,7 @@ def main():
     parser = yacc.yacc()
     result = parser.parse(codigo_lua)
     print(result)
+
 
 if __name__ == "__main__":
     main()

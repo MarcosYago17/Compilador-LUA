@@ -1,5 +1,12 @@
-import AbstractVisitor
 import SintaxeAbstrata as a
+import AbstractVisitor
+import sys
+import os
+raiz = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(raiz)
+#from LexicoPLY.ExpressionLanguageLex import tokens
+from ExpressionLanguageParser import *
+
 '''
 todas as classes retornam String, pois fica mais fácil de testar
 e muito mais visível para erros
@@ -52,10 +59,13 @@ class VisitorPrettyPrinter(AbstractVisitor.AbstractVisitor):
 
     def visitAssign(self, node):
         # Na sua classe Assign, os atributos são 'name' e 'exp'
-        return f"{node.name.accept(self)} = {node.exp.accept(self)}"
-
+        # return f"{node.name.accept(self)} = {node.exp.accept(self)}"
+        return f"{node.name} = {node.exp.accept(self)}"
+    
     def visitFunctionDecl(self, node):
-        params = ", ".join([p.accept(self) for p in node.params])
+        # params = ", ".join([p.accept(self) for p in node.params])
+        params = ", ".join([p for p in node.params])
+
         body = node.body.accept(self)
         return f"function {node.name}({params})\n{body}\n{self._indent()}end"
 
@@ -92,10 +102,9 @@ class VisitorPrettyPrinter(AbstractVisitor.AbstractVisitor):
         res += f"\n{self._indent()}end"
         return res
 
-# --- Bloco de Teste Atualizado ---
-if __name__ == "__main__":
 
-    # Teste 1: x = 1 + 2
+def main():
+        # Teste 1: x = 1 + 2
     # Note que Assign agora recebe (name, exp)
     expr = a.BinOp(a.Number(1), "+", a.Number(2))
     atribuicao = a.Assign(a.Var("x"), expr)
@@ -156,7 +165,8 @@ if __name__ == "__main__":
     block = a.Block([
         a.Assign(a.Var("a"), a.Number(1)),
         a.Assign(a.Var("b"), a.Number(2)),
-        a.Assign(a.Var("c"), a.BinOp(a.Var("a"), "+",a.Var("b")))
+        a.Assign(a.Var("c"), a.BinOp(a.Var("a"), "+",a.Var("b"))),
+        call
     ])
 
     print(block.accept(visitor))
@@ -197,3 +207,82 @@ if __name__ == "__main__":
     )
 
     print(if_node.accept(visitor))
+
+def main2():
+    
+    codigo_lua = """
+    function soma(a, b)
+        return a + b
+    end
+
+    local x = 10
+
+    local y = 20
+
+    for i = 1, 10, 2 do
+        print(i)
+    end
+
+    if x == y then
+        print("Iguais")
+    else
+        print("Diferentes")
+    end
+    
+    local nota = 8
+
+    if nota > 7 then
+        print("Aprovado")
+    elseif nota > 5 then
+        print("Recuperação")
+    else
+        print("Reprovado")
+    end
+
+    function somar(a, b)
+        return a + b
+    end
+
+    local resultado = somar(10, 5)
+    
+    function coordenadas()
+        return 10
+    end
+
+    local x = coordenadas()
+
+    local saldo = 100
+        print(divida)
+    local divida = -saldo
+        print(-divida)
+    
+    local vivo = true
+    local morto = not vivo
+
+    print(morto)
+    print(not nil)
+    print(not 0)
+
+    local texto = "Lua"
+        print(texto)
+
+    if x > 0 and y < 10 then
+        print("ok")
+    end
+
+    if a or b then
+        print("verdadeiro")
+    end
+    """
+    
+    print("--- Testando Parser ---")
+    parser = yacc.yacc()
+    result = parser.parse(codigo_lua)
+    #print(result.statements[0])  # Imprime a primeira declaração (a função soma)
+    vp = VisitorPrettyPrinter()
+    #print (type(result))
+    result.accept(vp)
+
+# --- Bloco de Teste Atualizado ---
+if __name__ == "__main__":
+    main2()
