@@ -1,10 +1,18 @@
-import SintaxeAbstrata as a
-import AbstractVisitor
 import sys
 import os
+
+# Adiciona o diretório raiz ao path para imports absolutos
 raiz = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.append(raiz)
-#from LexicoPLY.ExpressionLanguageLex import tokens
+sys.path.insert(0, raiz)
+
+# Tenta import relativo (quando usado como módulo), senão usa absoluto (quando executado diretamente)
+try:
+    from . import SintaxeAbstrata as a
+    from . import AbstractVisitor
+except ImportError:
+    import SintaxeAbstrata as a
+    import AbstractVisitor
+
 from ExpressionLanguageParser import *
 
 '''
@@ -50,7 +58,9 @@ class VisitorPrettyPrinter(AbstractVisitor.AbstractVisitor):
 
     def visitFunctionCall(self, node):
         args = ", ".join([arg.accept(self) for arg in node.args])
-        return f"{node.name}({args})"
+        # node.name pode ser String ou str
+        name = node.name.value if hasattr(node.name, 'value') else node.name
+        return f"{name}({args})"
 
     # --- Comandos (Statements) ---
     def visitBlock(self, node):
@@ -59,22 +69,25 @@ class VisitorPrettyPrinter(AbstractVisitor.AbstractVisitor):
 
     def visitAssign(self, node):
         # Na sua classe Assign, os atributos são 'name' e 'exp'
-        # return f"{node.name.accept(self)} = {node.exp.accept(self)}"
-        return f"{node.name} = {node.exp.accept(self)}"
+        # node.name pode ser String ou str
+        name = node.name.value if hasattr(node.name, 'value') else node.name
+        return f"{name} = {node.exp.accept(self)}"
     
     def visitFunctionDecl(self, node):
-        # params = ", ".join([p.accept(self) for p in node.params])
-        params = ", ".join([p for p in node.params])
-
+        # params é uma lista de objetos String
+        params = ", ".join([p.value if hasattr(p, 'value') else p for p in node.params])
+        # node.name é um objeto String
+        name = node.name.value if hasattr(node.name, 'value') else node.name
         body = node.body.accept(self)
-        return f"function {node.name}({params})\n{body}\n{self._indent()}end"
+        return f"function {name}({params})\n{body}\n{self._indent()}end"
 
     def visitFor(self, node):
         # Em Lua: for var = start, end, step do
-        var = node.var.accept(self)
+        # node.var é um objeto String
+        var = node.var.value if hasattr(node.var, 'value') else node.var
         start = node.start.accept(self)
         end = node.end.accept(self)
-        step = node.step.accept(self)
+        step = node.step.accept(self) if node.step else "1"
         body = node.body.accept(self)
         return f"for {var} = {start}, {end}, {step} do\n{body}\n{self._indent()}end"
 
@@ -90,11 +103,11 @@ class VisitorPrettyPrinter(AbstractVisitor.AbstractVisitor):
         res = f"if {cond} then\n{then_part}"
         
         # Tratando a lista de ElseIf
+        # elseif_list é una lista de tuplas (condition, body)
         if node.elseif_list:
-            for ei in node.elseif_list:
-                # Caso ei tenha a mesma estrutura de um nó If
-                res += f"\n{self._indent()}elseif {ei.condition.accept(self)} then"
-                res += f"\n{ei.then_body.accept(self)}"
+            for ei_cond, ei_body in node.elseif_list:
+                res += f"\n{self._indent()}elseif {ei_cond.accept(self)} then"
+                res += f"\n{ei_body.accept(self)}"
         
         if node.else_body:
             res += f"\n{self._indent()}else\n{node.else_body.accept(self)}"
@@ -278,10 +291,22 @@ def main2():
     print("--- Testando Parser ---")
     parser = yacc.yacc()
     result = parser.parse(codigo_lua)
-    #print(result.statements[0])  # Imprime a primeira declaração (a função soma)
-    vp = VisitorPrettyPrinter()
-    #print (type(result))
-    result.accept(vp)
+    
+    if result:
+        print("\n✓ Parsing bem-sucedido!")
+        print(f"Número de statements: {len(result.statements)}\n")
+        
+        print("--- Executando PrettyPrinter ---\n")
+        vp = VisitorPrettyPrinter()
+        codigo_regenerado = result.accept(vp)
+        
+        print("="*70)
+        print("CÓDIGO LUA REGENERADO:")
+        print("="*70)
+        print(codigo_regenerado)
+        print("="*70)
+    else:
+        print("✗ Erro no parsing")
 
 # --- Bloco de Teste Atualizado ---
 if __name__ == "__main__":

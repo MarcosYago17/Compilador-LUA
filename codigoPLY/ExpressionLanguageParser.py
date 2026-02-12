@@ -207,9 +207,9 @@ def p_expression_atom(p):
                   | TRUE
                   | FALSE
                   | NIL'''
-    if isinstance(p[1], int):
+    if p.slice[1].type == 'NUMBER':
         p[0] = sa.Number(p[1])
-    elif isinstance(p[1], str) and p[1].startswith('"'): # Verificação simplista
+    elif p.slice[1].type == 'STRING':
         p[0] = sa.String(p[1])
     elif p.slice[1].type == 'NAME': 
         p[0] = sa.Var(p[1])
