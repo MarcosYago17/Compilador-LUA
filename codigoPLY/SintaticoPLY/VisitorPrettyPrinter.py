@@ -228,7 +228,7 @@ def main2():
         return a + b
     end
 
-    local x = 10
+    local x = 10.5
 
     local y = 20
 

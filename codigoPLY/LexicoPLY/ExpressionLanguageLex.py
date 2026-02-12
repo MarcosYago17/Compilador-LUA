@@ -78,12 +78,27 @@ def t_NAME(t):
     t.type = reserved.get(t.value, 'NAME')
     return t
 
-def t_NUMBER(t):
+'''def t_NUMBER(t):
     r'(0[xX][0-9a-fA-F]+)|(\d+(\.\d+)?([eE][+-]?\d+)?)'
     if 'x' in t.value or 'X' in t.value:
         t.value = int(t.value, 16)
     else:
         t.value = float(t.value)
+    return t
+'''
+def t_NUMBER(t):
+    r'(0[xX][0-9a-fA-F]+)|(\d+(\.\d+)?([eE][+-]?\d+)?)'
+    val = t.value
+    #verificar se é Hexadecimal
+    if 'x' in val or 'X' in val:
+        t.value = int(val, 16)
+    #verifica se é Float (se tem ponto ou notação científica 'e/E')
+    elif '.' in val or 'e' in val or 'E' in val:
+        t.value = float(val)
+    #Inteiro decimal normal
+    else:
+        t.value = int(val)
+        
     return t
 
 def t_STRING(t):
