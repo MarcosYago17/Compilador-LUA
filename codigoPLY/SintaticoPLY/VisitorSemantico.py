@@ -1,18 +1,3 @@
-"""
-==========================================================
-VisitorSemantico.py - Análise Semântica do Compilador Lua
-Atividade 6 - Linguagens Formais e Tradutores (LFT)
-==========================================================
-
-O que este arquivo faz:
-  Percorre a Árvore Sintática (AST) gerada pelo parser e
-  verifica se o código faz SENTIDO. Exemplos de coisas que
-  ele detecta:
-    - Usar uma variável que nunca foi criada
-    - Chamar uma função que não existe
-    - Tentar somar texto com número
-    - Erros nos valores do laço 'for'
-"""
 
 import sys
 import os
@@ -21,6 +6,16 @@ import ply.yacc as yacc
 # Ajuste de caminho para encontrar os outros arquivos
 raiz = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, raiz)
+
+# Diretório onde está o parsetab.py já gerado
+import tempfile
+_TABDIR = raiz  # codigoPLY (tem parsetab.py válido)
+
+def _criar_parser():
+    """Carrega o parser do parsetab.py existente — sem reconstruir."""
+    sys.path.insert(0, _TABDIR)
+    return yacc.yacc(debug=False, write_tables=False,
+                     tabmodule='parsetab', outputdir=_TABDIR)
 
 # Importa os módulos do projeto (funciona tanto como módulo quanto executado direto)
 try:
@@ -37,17 +32,7 @@ from ExpressionLanguageParser import *
 
 
 class VisitorSemantico(AbstractVisitor.AbstractVisitor):
-    """
-    Visitor que percorre a AST e realiza análise semântica.
-
-    O que ele verifica:
-      1. Se variáveis foram declaradas antes de serem usadas
-      2. Se funções foram declaradas antes de serem chamadas
-      3. Se operações aritméticas usam tipos compatíveis
-      4. Se o 'for' numérico usa valores numéricos
-      5. Controle de escopos (funções, for, if criam escopos)
-    """
-
+    
     def __init__(self):
         super().__init__()
         self.erros = []       # Lista de erros encontrados
@@ -408,7 +393,7 @@ def teste1_codigo_correto():
     print("  TESTE 1: Código CORRETO (nenhum erro esperado)")
     print("#" * 70)
 
-    parser = yacc.yacc()
+    parser = _criar_parser()
     arvore = parser.parse(codigo)
 
     if arvore:
@@ -441,7 +426,7 @@ def teste2_codigo_com_erros():
     print("    - 'y' não foi declarada")
     print("#" * 70)
 
-    parser = yacc.yacc()
+    parser = _criar_parser()
     arvore = parser.parse(codigo)
 
     if arvore:
@@ -474,7 +459,7 @@ def teste3_escopos():
     print("  TESTE 3: Verificação de ESCOPOS")
     print("#" * 70)
 
-    parser = yacc.yacc()
+    parser = _criar_parser()
     arvore = parser.parse(codigo)
 
     if arvore:
@@ -498,7 +483,7 @@ def teste4_for_com_erro():
     print("  TESTE 4: Laço FOR numérico (deve passar)")
     print("#" * 70)
 
-    parser = yacc.yacc()
+    parser = _criar_parser()
     arvore = parser.parse(codigo)
 
     if arvore:

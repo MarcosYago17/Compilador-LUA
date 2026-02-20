@@ -1,0 +1,205 @@
+======================================================================
+     ANÁLISE SEMÂNTICA - Compilador Lua
+     Atividade 6 - LFT
+======================================================================
+
+######################################################################
+  TESTE 1: Código CORRETO (nenhum erro esperado)
+######################################################################
+
+======================================================================
+           RELATÓRIO DA ANÁLISE SEMÂNTICA
+======================================================================
+
+  Nenhum problema semântico encontrado!
+
+
+----------------------------------------------------------------------
+TABELA DE SÍMBOLOS FINAL:
+
+======================================================================
+TABELA DE SÍMBOLOS
+======================================================================
+[0] print           | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 0
+[1] type            | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 1
+[2] tostring        | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 2
+[3] tonumber        | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 3
+[4] pairs           | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 4
+[5] ipairs          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 5
+[6] pcall           | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 6
+[7] error           | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 7
+[8] assert          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 8
+[9] require         | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 9
+[10] unpack          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 10
+[11] select          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 11
+[12] rawget          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 12
+[13] rawset          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 13
+[14] setmetatable    | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 14
+[15] getmetatable    | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 15
+[16] soma            | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 16
+     Params: ['a', 'b']
+[17] a               | Cat: var      | Type: None       | Scope: 1 | Local: True | Offset: 17
+[18] b               | Cat: var      | Type: None       | Scope: 1 | Local: True | Offset: 18
+[19] x               | Cat: var      | Type: number     | Scope: 0 | Local: True | Offset: 19
+[20] y               | Cat: var      | Type: number     | Scope: 0 | Local: True | Offset: 20
+[21] resultado       | Cat: var      | Type: None       | Scope: 0 | Local: True | Offset: 21
+[22] i               | Cat: var      | Type: number     | Scope: 4 | Local: True | Offset: 22
+======================================================================
+Escopo atual: 0
+Pilha de escopos: [0]
+======================================================================
+
+RESULTADO: APROVADO (sem erros)
+======================================================================
+
+
+######################################################################
+  TESTE 2: Código COM ERROS (erros devem ser detectados)
+  Erros esperados:
+    - 'calcular' não foi declarada
+    - 'texto + 5' mistura string com número
+    - 'y' não foi declarada
+######################################################################
+
+======================================================================
+           RELATÓRIO DA ANÁLISE SEMÂNTICA
+======================================================================
+
+  2 ERRO(S) SEMÂNTICO(S):
+
+    1. [ERRO] Função 'calcular' chamada sem ter sido declarada
+    2. [ERRO] Variável 'y' usada sem ter sido declarada
+
+  1 AVISO(S):
+
+    1. [AVISO] Operador '+': lado esquerdo é 'string', esperado 'number'
+
+----------------------------------------------------------------------
+TABELA DE SÍMBOLOS FINAL:
+
+======================================================================
+TABELA DE SÍMBOLOS
+======================================================================
+[0] print           | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 0
+[1] type            | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 1
+[2] tostring        | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 2
+[3] tonumber        | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 3
+[4] pairs           | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 4
+[5] ipairs          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 5
+[6] pcall           | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 6
+[7] error           | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 7
+[8] assert          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 8
+[9] require         | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 9
+[10] unpack          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 10
+[11] select          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 11
+[12] rawget          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 12
+[13] rawset          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 13
+[14] setmetatable    | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 14
+[15] getmetatable    | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 15
+[16] x               | Cat: var      | Type: number     | Scope: 0 | Local: True | Offset: 16
+[17] resultado       | Cat: var      | Type: None       | Scope: 0 | Local: True | Offset: 17
+[18] texto           | Cat: var      | Type: string     | Scope: 0 | Local: True | Offset: 18
+[19] conta           | Cat: var      | Type: number     | Scope: 0 | Local: True | Offset: 19
+======================================================================
+Escopo atual: 0
+Pilha de escopos: [0]
+======================================================================
+
+RESULTADO: REPROVADO (erros encontrados)
+======================================================================
+
+
+######################################################################
+  TESTE 3: Verificação de ESCOPOS
+######################################################################
+
+======================================================================
+           RELATÓRIO DA ANÁLISE SEMÂNTICA
+======================================================================
+
+  Nenhum problema semântico encontrado!
+
+
+----------------------------------------------------------------------
+TABELA DE SÍMBOLOS FINAL:
+
+======================================================================
+TABELA DE SÍMBOLOS
+======================================================================
+[0] print           | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 0
+[1] type            | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 1
+[2] tostring        | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 2
+[3] tonumber        | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 3
+[4] pairs           | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 4
+[5] ipairs          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 5
+[6] pcall           | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 6
+[7] error           | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 7
+[8] assert          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 8
+[9] require         | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 9
+[10] unpack          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 10
+[11] select          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 11
+[12] rawget          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 12
+[13] rawset          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 13
+[14] setmetatable    | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 14
+[15] getmetatable    | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 15
+[16] a               | Cat: var      | Type: number     | Scope: 0 | Local: True | Offset: 16
+[17] dobrar          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 17
+     Params: ['n']
+[18] n               | Cat: var      | Type: None       | Scope: 1 | Local: True | Offset: 18
+[19] b               | Cat: var      | Type: None       | Scope: 0 | Local: True | Offset: 19
+[20] c               | Cat: var      | Type: number     | Scope: 2 | Local: True | Offset: 20
+======================================================================
+Escopo atual: 0
+Pilha de escopos: [0]
+======================================================================
+
+RESULTADO: APROVADO (sem erros)
+======================================================================
+
+
+######################################################################
+  TESTE 4: Laço FOR numérico (deve passar)
+######################################################################
+
+======================================================================
+           RELATÓRIO DA ANÁLISE SEMÂNTICA
+======================================================================
+
+  Nenhum problema semântico encontrado!
+
+
+----------------------------------------------------------------------
+TABELA DE SÍMBOLOS FINAL:
+
+======================================================================
+TABELA DE SÍMBOLOS
+======================================================================
+[0] print           | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 0
+[1] type            | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 1
+[2] tostring        | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 2
+[3] tonumber        | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 3
+[4] pairs           | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 4
+[5] ipairs          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 5
+[6] pcall           | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 6
+[7] error           | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 7
+[8] assert          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 8
+[9] require         | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 9
+[10] unpack          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 10
+[11] select          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 11
+[12] rawget          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 12
+[13] rawset          | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 13
+[14] setmetatable    | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 14
+[15] getmetatable    | Cat: fun      | Type: None       | Scope: 0 | Local: False | Offset: 15
+[16] i               | Cat: var      | Type: number     | Scope: 1 | Local: True | Offset: 16
+======================================================================
+Escopo atual: 0
+Pilha de escopos: [0]
+======================================================================
+
+RESULTADO: APROVADO (sem erros)
+======================================================================
+
+
+======================================================================
+  TODOS OS TESTES CONCLUÍDOS!
+======================================================================
