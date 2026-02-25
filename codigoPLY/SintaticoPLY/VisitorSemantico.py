@@ -1,23 +1,28 @@
-
-import sys
 import os
+import sys
+
 import ply.yacc as yacc
 
-# Ajuste de caminho para encontrar os outros arquivos
-raiz = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, raiz)
+# Ajuste de caminho para encontrar os outros arquivos.
+raiz = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if raiz not in sys.path:
+    sys.path.insert(0, raiz)
 
-# Diretório onde está o parsetab.py já gerado
-import tempfile
-_TABDIR = raiz  # codigoPLY (tem parsetab.py válido)
+_TABDIR = raiz  # codigoPLY (tem parsetab.py valido)
+
 
 def _criar_parser():
-    """Carrega o parser do parsetab.py existente — sem reconstruir."""
-    sys.path.insert(0, _TABDIR)
-    return yacc.yacc(debug=False, write_tables=False,
-                     tabmodule='parsetab', outputdir=_TABDIR)
+    """Carrega o parser do parsetab.py existente sem reconstruir."""
+    if _TABDIR not in sys.path:
+        sys.path.insert(0, _TABDIR)
+    return yacc.yacc(
+        debug=False,
+        write_tables=False,
+        tabmodule="parsetab",
+        outputdir=_TABDIR,
+    )
 
-# Importa os módulos do projeto (funciona tanto como módulo quanto executado direto)
+
 try:
     from . import SintaxeAbstrata as a
     from . import AbstractVisitor
@@ -27,293 +32,255 @@ except ImportError:
     import AbstractVisitor
     import SymbolTable as st
 
-# Importa o parser (regras gramaticais e tokens)
-from ExpressionLanguageParser import *
+from ExpressionLanguageParser import *  # noqa: F401,F403
 
 
 class VisitorSemantico(AbstractVisitor.AbstractVisitor):
-    
     def __init__(self):
         super().__init__()
-        self.erros = []       # Lista de erros encontrados
-        self.avisos = []      # Lista de avisos (não impedem compilação)
-        st.reset_table()      # Limpa a tabela de símbolos
+        self.erros = []
+        self.avisos = []
+        st.reset_table()
         self._registrar_builtins()
 
     def _registrar_builtins(self):
-        """
-        Registra funções que já vêm prontas no Lua.
-        Assim o analisador não reclama quando o código usa print(), type(), etc.
-        """
-        for nome in ['print', 'type', 'tostring', 'tonumber',
-                      'pairs', 'ipairs', 'pcall', 'error',
-                      'assert', 'require', 'unpack', 'select',
-                      'rawget', 'rawset', 'setmetatable', 'getmetatable']:
+        for nome in [
+            "print",
+            "type",
+            "tostring",
+            "tonumber",
+            "pairs",
+            "ipairs",
+            "pcall",
+            "error",
+            "assert",
+            "require",
+            "unpack",
+            "select",
+            "rawget",
+            "rawset",
+            "setmetatable",
+            "getmetatable",
+        ]:
             try:
                 st.add_function(nome, params=None, return_type=None)
             except Exception:
                 pass
 
-    # ---------- Funções auxiliares ----------
-
     def _erro(self, mensagem):
-        """Registra um erro semântico."""
         self.erros.append(f"[ERRO] {mensagem}")
 
     def _aviso(self, mensagem):
-        """Registra um aviso."""
         self.avisos.append(f"[AVISO] {mensagem}")
 
     def _extrair_nome(self, node):
-        """Pega o nome de um nó (pode ser objeto String ou texto puro)."""
-        if hasattr(node, 'value'):
+        if hasattr(node, "value"):
             return node.value
         return str(node)
 
+    def _validar_condicao_booleana(self, tipo, contexto):
+        # Se nao conseguimos inferir o tipo, nao acusa erro.
+        if tipo is None:
+            return
+        if tipo != st.BOOLEAN:
+            self._erro(
+                f"Condicao de {contexto} deve ser boolean, mas recebeu '{tipo}'"
+            )
+
     # ==============================================
-    #          VISITANDO EXPRESSÕES
+    #          EXPRESSOES
     # ==============================================
 
     def visitNumber(self, node):
-        """Número: tipo 'number'."""
         return st.NUMBER
 
     def visitString(self, node):
-        """Texto: tipo 'string'."""
         return st.STRING
 
     def visitBoolean(self, node):
-        """Booleano: tipo 'boolean'."""
         return st.BOOLEAN
 
     def visitNil(self, node):
-        """Nil: tipo 'nil'."""
         return st.NIL
 
     def visitVar(self, node):
-        """
-        Variável sendo USADA no código.
-        Verifica: ela foi declarada antes?
-        """
         if not st.symbol_exists(node.name):
-            self._erro(
-                f"Variável '{node.name}' usada sem ter sido declarada"
-            )
+            self._erro(f"Variavel '{node.name}' usada sem ter sido declarada")
             return None
-
         simbolo = st.lookup_symbol(node.name)
         return simbolo[st.TYPE] if simbolo else None
 
     def visitUnOp(self, node):
-        """
-        Operação com um valor só (ex: -x, not x).
-        - Se for '-': verifica se o valor é número
-        - Se for 'not': sempre retorna boolean
-        """
         tipo = node.operand.accept(self)
-
         op = node.op.strip() if isinstance(node.op, str) else node.op
 
-        if op == '-':
+        if op == "-":
             if tipo and tipo != st.NUMBER:
                 self._aviso(
-                    f"Operador '-' aplicado a tipo '{tipo}' "
-                    f"(esperado: number)"
+                    f"Operador '-' aplicado a tipo '{tipo}' (esperado: number)"
                 )
             return st.NUMBER
-        elif op == 'not':
+
+        if op == "not":
             return st.BOOLEAN
 
         return None
 
     def visitBinOp(self, node):
-        """
-        Operação com dois valores (ex: a + b, x == y).
-        - Aritméticas (+, -, *, /): ambos devem ser number
-        - Comparações (==, <, >, etc.): retorna boolean
-        - Lógicas (and, or): retorna tipo do operando
-        """
         tipo_esq = node.left.accept(self)
         tipo_dir = node.right.accept(self)
+        op = node.op
 
-        if node.op in ['+', '-', '*', '/']:
+        if op in ["+", "-", "*", "/"]:
             if tipo_esq and tipo_esq not in [st.NUMBER, st.NIL]:
                 self._aviso(
-                    f"Operador '{node.op}': lado esquerdo é "
-                    f"'{tipo_esq}', esperado 'number'"
+                    f"Operador '{op}': lado esquerdo e '{tipo_esq}', esperado 'number'"
                 )
             if tipo_dir and tipo_dir not in [st.NUMBER, st.NIL]:
                 self._aviso(
-                    f"Operador '{node.op}': lado direito é "
-                    f"'{tipo_dir}', esperado 'number'"
+                    f"Operador '{op}': lado direito e '{tipo_dir}', esperado 'number'"
                 )
             return st.NUMBER
 
-        elif node.op in ['==', '~=', '<', '>', '<=', '>=']:
+        if op in ["==", "~=", "<", ">", "<=", ">="]:
             return st.BOOLEAN
 
-        elif node.op in ['and', 'or']:
-            return tipo_esq
+        if op in ["and", "or"]:
+            if tipo_esq == st.BOOLEAN and tipo_dir == st.BOOLEAN:
+                return st.BOOLEAN
+            return None
 
         return None
 
     def visitFunctionCall(self, node):
-        """
-        Chamada de função (ex: soma(1, 2), print("oi")).
-        Verifica:
-          1. A função foi declarada?
-          2. É realmente uma função?
-          3. Número de argumentos bate?
-        """
         nome = self._extrair_nome(node.name)
 
         if not st.symbol_exists(nome):
-            self._erro(f"Função '{nome}' chamada sem ter sido declarada")
+            self._erro(f"Funcao '{nome}' chamada sem ter sido declarada")
         else:
             simbolo = st.lookup_symbol(nome)
-
             if simbolo and simbolo[st.CATEGORY] != st.FUNC:
-                self._aviso(
-                    f"'{nome}' não é uma função, mas foi chamada como uma"
-                )
+                self._erro(f"'{nome}' nao e uma funcao, mas foi chamada como uma")
 
             if simbolo and simbolo.get(st.PARAMS):
                 esperados = len(simbolo[st.PARAMS])
                 recebidos = len(node.args)
                 if recebidos != esperados:
-                    self._aviso(
-                        f"Função '{nome}' espera {esperados} "
-                        f"argumento(s), recebeu {recebidos}"
+                    self._erro(
+                        f"Funcao '{nome}' espera {esperados} argumento(s), recebeu {recebidos}"
                     )
 
-        # Visita cada argumento (pode ter erros dentro deles)
         for arg in node.args:
             arg.accept(self)
 
         return None
 
     # ==============================================
-    #          VISITANDO COMANDOS
+    #          COMANDOS
     # ==============================================
 
     def visitAssign(self, node):
-        """
-        Atribuição (ex: x = 10 ou local x = 10).
-        1. Avalia a expressão do lado direito
-        2. Registra ou atualiza a variável na tabela
-        """
         nome = self._extrair_nome(node.name)
-
-        # Primeiro avalia a expressão (pode ter erros nela)
         tipo_exp = node.exp.accept(self)
+        is_local = getattr(node, "is_local", False)
 
-        # Se a variável já existe, atualiza o tipo
+        if is_local:
+            try:
+                st.add_variable(nome, var_type=tipo_exp, is_local=True)
+            except Exception as exc:
+                self._erro(str(exc))
+            return
+
+        # Atribuicao sem local: atualiza se existir, senao cria global implicita.
         if st.symbol_exists(nome):
             simbolo = st.lookup_symbol(nome)
             if simbolo:
                 simbolo[st.TYPE] = tipo_exp
         else:
-            # Variável nova: registra na tabela
             try:
-                st.add_variable(
-                    nome, var_type=tipo_exp, is_local=True
-                )
-            except Exception as e:
-                self._erro(str(e))
+                st.add_variable(nome, var_type=tipo_exp, is_local=False)
+            except Exception as exc:
+                self._erro(str(exc))
 
     def visitFunctionDecl(self, node):
-        """
-        Declaração de função (ex: function soma(a, b) ... end).
-        1. Registra a função
-        2. Abre um novo escopo
-        3. Registra parâmetros como variáveis locais
-        4. Visita o corpo
-        5. Fecha o escopo
-        """
         nome = self._extrair_nome(node.name)
         nomes_params = [self._extrair_nome(p) for p in node.params]
 
         try:
             st.add_function(nome, params=nomes_params, return_type=None)
-        except Exception as e:
-            self._erro(str(e))
+        except Exception as exc:
+            self._erro(str(exc))
 
         st.enter_scope()
-
         for param in nomes_params:
             try:
                 st.add_variable(param, var_type=None, is_local=True)
-            except Exception as e:
-                self._erro(str(e))
+            except Exception as exc:
+                self._erro(str(exc))
 
         node.body.accept(self)
         st.exit_scope()
 
     def visitFor(self, node):
-        """
-        Laço for numérico (ex: for i = 1, 10, 2 do ... end).
-        1. Abre escopo
-        2. Registra variável do laço
-        3. Verifica se início, fim e passo são números
-        4. Visita o corpo
-        5. Fecha escopo
-        """
         st.enter_scope()
-
         nome_var = self._extrair_nome(node.var)
         try:
             st.add_variable(nome_var, var_type=st.NUMBER, is_local=True)
-        except Exception as e:
-            self._erro(str(e))
+        except Exception as exc:
+            self._erro(str(exc))
 
         tipo_ini = node.start.accept(self)
         if tipo_ini and tipo_ini != st.NUMBER:
             self._erro(
-                f"For: valor inicial deve ser número, "
-                f"recebeu '{tipo_ini}'"
+                f"For: valor inicial deve ser numero, recebeu '{tipo_ini}'"
             )
 
         tipo_fim = node.end.accept(self)
         if tipo_fim and tipo_fim != st.NUMBER:
-            self._erro(
-                f"For: valor final deve ser número, "
-                f"recebeu '{tipo_fim}'"
-            )
+            self._erro(f"For: valor final deve ser numero, recebeu '{tipo_fim}'")
 
         if node.step:
             tipo_passo = node.step.accept(self)
             if tipo_passo and tipo_passo != st.NUMBER:
-                self._erro(
-                    f"For: passo deve ser número, "
-                    f"recebeu '{tipo_passo}'"
-                )
+                self._erro(f"For: passo deve ser numero, recebeu '{tipo_passo}'")
 
         node.body.accept(self)
         st.exit_scope()
 
+    def visitWhile(self, node):
+        tipo_cond = node.condition.accept(self)
+        self._validar_condicao_booleana(tipo_cond, "while")
+
+        st.enter_scope()
+        node.body.accept(self)
+        st.exit_scope()
+
     def visitReturn(self, node):
-        """Visita a expressão do return."""
         if node.exp:
             return node.exp.accept(self)
         return st.NIL
 
     def visitIf(self, node):
-        """
-        Estrutura if/elseif/else.
-        Cada bloco (then, elseif, else) tem seu próprio escopo.
-        """
-        node.condition.accept(self)
+        tipo_cond = node.condition.accept(self)
+        self._validar_condicao_booleana(tipo_cond, "if")
 
         st.enter_scope()
         node.then_body.accept(self)
         st.exit_scope()
 
-        if node.elseif_list:
-            for ei_cond, ei_body in node.elseif_list:
-                ei_cond.accept(self)
-                st.enter_scope()
-                ei_body.accept(self)
-                st.exit_scope()
+        for item in node.elseif_list or []:
+            if isinstance(item, tuple) and len(item) == 2:
+                cond, body = item
+            else:
+                cond = getattr(item, "condition", None)
+                body = getattr(item, "then_body", None)
+            if cond is None or body is None:
+                continue
+            tipo_elseif = cond.accept(self)
+            self._validar_condicao_booleana(tipo_elseif, "elseif")
+            st.enter_scope()
+            body.accept(self)
+            st.exit_scope()
 
         if node.else_body:
             st.enter_scope()
@@ -321,26 +288,23 @@ class VisitorSemantico(AbstractVisitor.AbstractVisitor):
             st.exit_scope()
 
     def visitBlock(self, node):
-        """Visita cada comando dentro de um bloco."""
-        if node.statements:
-            for stmt in node.statements:
-                stmt.accept(self)
+        for stmt in node.statements or []:
+            stmt.accept(self)
 
     # ==============================================
-    #              RELATÓRIO FINAL
+    #              RELATORIO FINAL
     # ==============================================
 
     def relatorio(self):
-        """Imprime o relatório completo da análise semântica."""
         print("\n" + "=" * 70)
-        print("           RELATÓRIO DA ANÁLISE SEMÂNTICA")
+        print("           RELATORIO DA ANALISE SEMANTICA")
         print("=" * 70)
 
         if not self.erros and not self.avisos:
-            print("\n  Nenhum problema semântico encontrado!\n")
+            print("\n  Nenhum problema semantico encontrado!\n")
 
         if self.erros:
-            print(f"\n  {len(self.erros)} ERRO(S) SEMÂNTICO(S):\n")
+            print(f"\n  {len(self.erros)} ERRO(S) SEMANTICO(S):\n")
             for i, erro in enumerate(self.erros, 1):
                 print(f"    {i}. {erro}")
 
@@ -350,24 +314,40 @@ class VisitorSemantico(AbstractVisitor.AbstractVisitor):
                 print(f"    {i}. {aviso}")
 
         print("\n" + "-" * 70)
-        print("TABELA DE SÍMBOLOS FINAL:")
+        print("TABELA DE SIMBOLOS FINAL:")
         st.print_table()
 
         sucesso = len(self.erros) == 0
-        print("RESULTADO:",
-              "APROVADO (sem erros)" if sucesso
-              else "REPROVADO (erros encontrados)")
+        msg = "APROVADO (sem erros)" if sucesso else "REPROVADO (erros encontrados)"
+        print("RESULTADO:", msg)
         print("=" * 70 + "\n")
         return sucesso
 
 
-# ==============================================
-#                   TESTES
-# ==============================================
+def _executar_teste(codigo, titulo, observacoes=None):
+    print("\n" + "#" * 70)
+    print(f"  {titulo}")
+    if observacoes:
+        for linha in observacoes:
+            print(f"  {linha}")
+    print("#" * 70)
+
+    parser = _criar_parser()
+    try:
+        arvore = parser.parse(codigo)
+    except SyntaxError:
+        print("Erro no parsing!")
+        return
+
+    if arvore:
+        visitor = VisitorSemantico()
+        arvore.accept(visitor)
+        visitor.relatorio()
+    else:
+        print("Erro no parsing!")
+
 
 def teste1_codigo_correto():
-    """Código Lua SEM erros — tudo deve passar."""
-
     codigo = """
     function soma(a, b)
         return a + b
@@ -375,7 +355,6 @@ def teste1_codigo_correto():
 
     local x = 10
     local y = 20
-
     local resultado = soma(x, y)
 
     if x == y then
@@ -388,58 +367,34 @@ def teste1_codigo_correto():
         print(i)
     end
     """
-
-    print("\n" + "#" * 70)
-    print("  TESTE 1: Código CORRETO (nenhum erro esperado)")
-    print("#" * 70)
-
-    parser = _criar_parser()
-    arvore = parser.parse(codigo)
-
-    if arvore:
-        visitor = VisitorSemantico()
-        arvore.accept(visitor)
-        visitor.relatorio()
-    else:
-        print("Erro no parsing!")
+    _executar_teste(
+        codigo,
+        "TESTE 1: Codigo CORRETO (nenhum erro esperado)",
+    )
 
 
 def teste2_codigo_com_erros():
-    """Código Lua COM erros — o analisador deve detectar."""
-
     codigo = """
     local x = 10
 
     local resultado = calcular(x)
-
     local texto = "lua"
     local conta = texto + 5
-
     print(y)
     """
-
-    print("\n" + "#" * 70)
-    print("  TESTE 2: Código COM ERROS (erros devem ser detectados)")
-    print("  Erros esperados:")
-    print("    - 'calcular' não foi declarada")
-    print("    - 'texto + 5' mistura string com número")
-    print("    - 'y' não foi declarada")
-    print("#" * 70)
-
-    parser = _criar_parser()
-    arvore = parser.parse(codigo)
-
-    if arvore:
-        visitor = VisitorSemantico()
-        arvore.accept(visitor)
-        visitor.relatorio()
-    else:
-        print("Erro no parsing!")
+    _executar_teste(
+        codigo,
+        "TESTE 2: Codigo COM ERROS (erros devem ser detectados)",
+        observacoes=[
+            "Erros esperados:",
+            "- 'calcular' nao foi declarada",
+            "- 'texto + 5' mistura string com numero",
+            "- 'y' nao foi declarada",
+        ],
+    )
 
 
 def teste3_escopos():
-    """Teste focado em verificar escopos."""
-
     codigo = """
     local a = 1
 
@@ -454,49 +409,21 @@ def teste3_escopos():
         print(c)
     end
     """
-
-    print("\n" + "#" * 70)
-    print("  TESTE 3: Verificação de ESCOPOS")
-    print("#" * 70)
-
-    parser = _criar_parser()
-    arvore = parser.parse(codigo)
-
-    if arvore:
-        visitor = VisitorSemantico()
-        arvore.accept(visitor)
-        visitor.relatorio()
-    else:
-        print("Erro no parsing!")
+    _executar_teste(codigo, "TESTE 3: Verificacao de ESCOPOS")
 
 
 def teste4_for_com_erro():
-    """For com valor de string (deveria ser número)."""
-
     codigo = """
     for i = 1, 10, 2 do
         print(i)
     end
     """
-
-    print("\n" + "#" * 70)
-    print("  TESTE 4: Laço FOR numérico (deve passar)")
-    print("#" * 70)
-
-    parser = _criar_parser()
-    arvore = parser.parse(codigo)
-
-    if arvore:
-        visitor = VisitorSemantico()
-        arvore.accept(visitor)
-        visitor.relatorio()
-    else:
-        print("Erro no parsing!")
+    _executar_teste(codigo, "TESTE 4: Laco FOR numerico (deve passar)")
 
 
 if __name__ == "__main__":
     print("=" * 70)
-    print("     ANÁLISE SEMÂNTICA - Compilador Lua")
+    print("     ANALISE SEMANTICA - Compilador Lua")
     print("     Atividade 6 - LFT")
     print("=" * 70)
 

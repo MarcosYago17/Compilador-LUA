@@ -228,7 +228,7 @@ def main():
     try:
         add_variable("x", var_type=NUMBER, is_local=False)
     except Exception as e:
-        print(f"  ✓ Erro capturado: {e}")
+        print(f"  [OK] Erro capturado: {e}")
     
     # Teste 8: Testando lookup de símbolo não existente
     print("\n8. Procurando símbolo não existente:")

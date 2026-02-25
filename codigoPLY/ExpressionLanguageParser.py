@@ -39,7 +39,8 @@ precedence = (
 def p_program(p):
     '''program : statements
                | empty '''
-    p[0] = sa.Block(p[1])
+    statements = p[1] if p[1] is not None else []
+    p[0] = sa.Block(statements)
 
 # lista de comandos
 def p_statements_multiple(p):
@@ -77,6 +78,11 @@ def p_statement_for(p):
     p[0] = sa.For(var_name, start_exp, end_exp, step_exp, body)
 
 
+def p_statement_while(p):
+    '''statement : WHILE expression DO statements END'''
+    p[0] = sa.While(p[2], sa.Block(p[4]))
+
+
 # If / Else
 def p_statement_if(p):
     '''statement : IF expression THEN statements if_tail'''
@@ -110,19 +116,19 @@ def p_elseif_list_multi(p):
 #-----------------------
 def p_empty(p):
     'empty :'
-    pass
+    p[0] = []
 
 #-----------------------
 
 # Atribuição: local x = 10
 def p_statement_assign_local(p):
     '''statement : LOCAL NAME ATRIB expression'''
-    p[0] = sa.Assign(sa.String(p[2]), p[4])
+    p[0] = sa.Assign(sa.String(p[2]), p[4], is_local=True)
 
 # Atribuição existente: x = 10
 def p_statement_assign(p):
     '''statement : NAME ATRIB expression'''
-    p[0] = sa.Assign(sa.String(p[1]), p[3])
+    p[0] = sa.Assign(sa.String(p[1]), p[3], is_local=False)
 
 # Print é um caso especial de chamada de função em lua
 def p_statement_print(p):
@@ -225,6 +231,7 @@ def p_error(p):
         print(f"ERRO DE SINTAXE: Token '{p.value}' inesperado na linha {p.lineno}")
     else:
         print("ERRO DE SINTAXE: Final de arquivo inesperado")
+    raise SyntaxError("Erro de sintaxe")
 
 
  # --- TESTE ---

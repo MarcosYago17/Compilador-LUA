@@ -47,6 +47,10 @@ class AbstractVisitor(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def visitWhile(self, while_stmt):
+        pass
+
+    @abstractmethod
     def visitReturn(self, ret):
         pass
 

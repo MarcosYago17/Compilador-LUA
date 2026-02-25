@@ -21,3 +21,22 @@ cabal.project.local
 cabal.project.local~
 .HTF/
 .ghc.environment.*
+
+# Python cache/venv
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Project-generated outputs
+resultado_testes.txt
+codigoPLY/parser.out
+codigoPLY/parsetab.py
+codigoPLY/SintaticoPLY/parser.out
+codigoPLY/SintaticoPLY/parsetab.py
+codigoPLY/SintaticoPLY/meu_codigo.asm

@@ -77,13 +77,15 @@ class FunctionCall(AST):
 
 # comandos (statements)
 class Assign(AST):
-    def __init__(self, name, exp):
+    def __init__(self, name, exp, is_local=False):
         self.name = name
         self.exp = exp
+        self.is_local = is_local
     def accept(self, visitor):
         return visitor.visitAssign(self)
     def __repr__(self):
-        return f"Assign({self.name} = {self.exp})"
+        prefix = "local " if self.is_local else ""
+        return f"Assign({prefix}{self.name} = {self.exp})"
 
 class FunctionDecl(AST):
     def __init__(self, name, params, body):
@@ -107,6 +109,16 @@ class For(AST):
     def __repr__(self):
         return f"For({self.var} = {self.start} to {self.end} step {self.step}) {self.body}"
 
+
+class While(AST):
+    def __init__(self, condition, body):
+        self.condition = condition
+        self.body = body
+    def accept(self, visitor):
+        return visitor.visitWhile(self)
+    def __repr__(self):
+        return f"While({self.condition}) {self.body}"
+
 class Return(AST):
     def __init__(self, exp):
         self.exp = exp
@@ -128,7 +140,7 @@ class If(AST):
 
 class Block(AST):
     def __init__(self, statements):
-        self.statements = statements
+        self.statements = statements if statements is not None else []
     def accept(self, visitor):
         return visitor.visitBlock(self)
     def __repr__(self):

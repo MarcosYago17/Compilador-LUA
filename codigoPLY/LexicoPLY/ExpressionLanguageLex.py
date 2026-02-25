@@ -21,6 +21,7 @@ reserved = {
     'then': 'THEN',
     'true': 'TRUE',
     'until': 'UNTIL',
+    'while': 'WHILE',
 }
 
 tokens = [
@@ -78,14 +79,7 @@ def t_NAME(t):
     t.type = reserved.get(t.value, 'NAME')
     return t
 
-'''def t_NUMBER(t):
-    r'(0[xX][0-9a-fA-F]+)|(\d+(\.\d+)?([eE][+-]?\d+)?)'
-    if 'x' in t.value or 'X' in t.value:
-        t.value = int(t.value, 16)
-    else:
-        t.value = float(t.value)
-    return t
-'''
+
 def t_NUMBER(t):
     r'(0[xX][0-9a-fA-F]+)|(\d+(\.\d+)?([eE][+-]?\d+)?)'
     val = t.value

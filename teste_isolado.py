@@ -155,6 +155,12 @@ class VisitorSemantico(AbstractVisitor.AbstractVisitor):
         node.body.accept(self)
         st.exit_scope()
 
+    def visitWhile(self, node):
+        node.condition.accept(self)
+        st.enter_scope()
+        node.body.accept(self)
+        st.exit_scope()
+
     def visitReturn(self, node):
         if node.exp:
             return node.exp.accept(self)
